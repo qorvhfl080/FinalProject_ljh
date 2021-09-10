@@ -98,6 +98,23 @@ class LoginActivity : BaseActivity() {
                             "\n${user.kakaoAccount?.email}" +
                             "\n${user.kakaoAccount?.profile?.nickname}" +
                             "\n${user.kakaoAccount?.profile?.thumbnailImageUrl}")
+
+                            apiService.postRequestSocialLogin("kakao", user.id.toString(), user.kakaoAccount.profile.nickname.toString()).enqueue(object : Callback<BasicResponse> {
+                                override fun onResponse(
+                                    call: Call<BasicResponse>,
+                                    response: Response<BasicResponse>) {
+
+                                    val basicResponse = response.body()!!
+
+                                    Toast.makeText(mContext, "${basicResponse.message}", Toast.LENGTH_SHORT).show()
+                                    Log.d("login", basicResponse.data.token)
+
+                                }
+
+                                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                                }
+                            })
                         }
                     }
                 }
