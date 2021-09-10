@@ -6,13 +6,19 @@ import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.kakao.sdk.user.UserApiClient
 import com.nepplus.finalproject_ljh.databinding.ActivityLoginBinding
+import com.nepplus.finalproject_ljh.datas.BasicResponse
+import com.nepplus.finalproject_ljh.web.ServerAPIService
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.security.MessageDigest
 import java.util.*
 
@@ -31,6 +37,42 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        binding.loginBtn.setOnClickListener { 
+            
+            val id = binding.idEdt.text.toString()
+            val pw = binding.passwordEdt.text.toString()
+            
+            apiService.postRequestLogin(id, pw).enqueue(object : Callback<BasicResponse> {
+                override fun onResponse(
+                    call: Call<BasicResponse>,
+                    response: Response<BasicResponse>) {
+
+                    if (response.isSuccessful) {
+                        val basicResponse = response.body()!!
+
+                        Log.d("server", basicResponse.message)
+                        Toast.makeText(mContext, "${basicResponse.message}", Toast.LENGTH_SHORT).show()
+                        
+                    } else {
+
+                        val errorBodyStr = response.errorBody()!!.toString()
+                        Log.d("server", errorBodyStr)
+                        val jsonObj = JSONObject(errorBodyStr)
+                        val message = jsonObj.getString("message")
+                        Log.d("server", message)
+                        //Toast.makeText(mContext, "${message}", Toast.LENGTH_SHORT).show()
+                        
+                    }
+                    
+                }
+
+                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+                    
+                }
+            })
+            
+        }
 
         binding.signUpBtn.setOnClickListener {
 
@@ -84,7 +126,22 @@ class LoginActivity : BaseActivity() {
                             Log.d("login", name)
                             Log.d("login", id)
 
-                            //Todo - 페북이 알려준 name, id를 api서버에 전달해서 소셜로그인 처리
+                            // 페북이 알려준 name, id를 api서버에 전달해서 소셜로그인 처리
+                            apiService.postRequestSocialLogin("facebook", id, name).enqueue(object : Callback<BasicResponse> {
+                                override fun onResponse(
+                                    call: Call<BasicResponse>,
+                                    response: Response<BasicResponse>) {
+                                    
+                                    val basicResponse = response.body()!!
+
+                                    Toast.makeText(mContext, "${basicResponse.message}", Toast.LENGTH_SHORT).show()
+                                    
+                                }
+
+                                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+                                    
+                                }
+                            })
 
                         }
                     })

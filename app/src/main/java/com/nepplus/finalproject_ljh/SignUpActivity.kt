@@ -41,13 +41,14 @@ class SignUpActivity : BaseActivity() {
                         val basicResponse = response.body()!!
 
                         Log.d("server", basicResponse.message)
+                        Toast.makeText(mContext, "${basicResponse.message}", Toast.LENGTH_SHORT).show()
+
                     } else {
 
                         val errorBodyStr = response.errorBody()!!.toString()
-                        Log.d("server", errorBodyStr)
                         val jsonObj = JSONObject(errorBodyStr)
                         val message = jsonObj.getString("message")
-
+                        Log.d("server", errorBodyStr)
                         Toast.makeText(mContext, "${message}", Toast.LENGTH_SHORT).show()
 
                     }
@@ -55,7 +56,7 @@ class SignUpActivity : BaseActivity() {
                 }
 
                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
-
+                    Toast.makeText(mContext, "로그인 실패", Toast.LENGTH_SHORT).show()
                 }
             })
 
