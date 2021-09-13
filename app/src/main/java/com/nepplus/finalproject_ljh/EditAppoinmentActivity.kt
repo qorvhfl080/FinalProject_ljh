@@ -22,7 +22,16 @@ class EditAppoinmentActivity : BaseActivity() {
 
     override fun setupEvents() {
 
-        binding.Btn.setOnClickListener {
+        binding.okBtn.setOnClickListener {
+
+            val inputTitle = binding.titleEdt.text.toString()
+            val inputDate = ""
+            val inputTime = ""
+            val inputPlaceName = binding.placeSearchEdt.text.toString()
+
+        }
+
+        binding.___.setOnClickListener {
             val cal = Calendar.getInstance()
             val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, h, m ->
                 cal.set(Calendar.HOUR_OF_DAY, h)
