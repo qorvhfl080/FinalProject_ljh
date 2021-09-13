@@ -1,5 +1,6 @@
 package com.nepplus.finalproject_ljh
 
+import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +13,8 @@ class EditAppoinmentActivity : BaseActivity() {
 
     lateinit var binding: ActivityEditAppoinmentBinding
 
+    val mSelectedDateTime = Calendar.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_appoinment)
@@ -22,6 +25,39 @@ class EditAppoinmentActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+        binding.dateTxt.setOnClickListener {
+
+            val dateSetListener = DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
+//                mSelectedDateTime.set(Calendar.YEAR, i)
+//                mSelectedDateTime.set(Calendar.MONTH, i2)
+//                mSelectedDateTime.set(Calendar.DAY_OF_WEEK, i3)
+                mSelectedDateTime.set(i, i2, i3)
+
+                if (mSelectedDateTime.get(Calendar.MINUTE) != null)
+                    binding.tempTxt.text = SimpleDateFormat("yyyy-MM-dd (E) a HH:mm").format(mSelectedDateTime.time)
+                else
+                    binding.tempTxt.text = SimpleDateFormat("yyyy-MM-dd").format(mSelectedDateTime.time)
+
+            }
+            DatePickerDialog(mContext, dateSetListener!!, mSelectedDateTime.get(Calendar.YEAR), mSelectedDateTime.get(Calendar.MONTH), mSelectedDateTime.get(Calendar.DAY_OF_MONTH)).show()
+
+        }
+
+        binding.timeTxt.setOnClickListener {
+
+            val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, h, m ->
+                mSelectedDateTime.set(Calendar.HOUR_OF_DAY, h)
+                mSelectedDateTime.set(Calendar.MINUTE, m)
+
+                if (mSelectedDateTime.get(Calendar.YEAR) != null)
+                    binding.tempTxt.text = SimpleDateFormat("yyyy-MM-dd (E) a HH:mm").format(mSelectedDateTime.time)
+                else
+                    binding.tempTxt.text = SimpleDateFormat("a HH:mm").format(mSelectedDateTime.time)
+            }
+            TimePickerDialog(mContext, timeSetListener, mSelectedDateTime.get(Calendar.HOUR_OF_DAY), mSelectedDateTime.get(Calendar.MINUTE), false).show()
+
+        }
+
         binding.okBtn.setOnClickListener {
 
             val inputTitle = binding.titleEdt.text.toString()
@@ -30,19 +66,6 @@ class EditAppoinmentActivity : BaseActivity() {
             val inputPlaceName = binding.placeSearchEdt.text.toString()
 
         }
-
-        binding.___.setOnClickListener {
-            val cal = Calendar.getInstance()
-            val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, h, m ->
-                cal.set(Calendar.HOUR_OF_DAY, h)
-                cal.set(Calendar.MINUTE, m)
-
-                binding.textTxt.text = SimpleDateFormat("HH:mm").format(cal.time)
-            }
-            TimePickerDialog(mContext, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), true).show()
-        }
-
-
 
     }
 

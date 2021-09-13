@@ -172,6 +172,10 @@ class LoginActivity : BaseActivity() {
 
                                     GlobalData.loginUser = dataResponse.user
 
+                                    val myIntent = Intent(mContext, MainActivity::class.java)
+                                    startActivity(myIntent)
+                                    finish()
+
                                 }
 
                                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {

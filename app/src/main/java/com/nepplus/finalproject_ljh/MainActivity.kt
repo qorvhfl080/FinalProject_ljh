@@ -1,5 +1,6 @@
 package com.nepplus.finalproject_ljh
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
@@ -21,7 +22,8 @@ class MainActivity : BaseActivity() {
 
         binding.addAppoinmentBtn.setOnClickListener {
 
-
+            val myIntent = Intent(mContext, EditAppoinmentActivity::class.java)
+            startActivity(myIntent)
 
         }
 
