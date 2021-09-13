@@ -1,5 +1,6 @@
 package com.nepplus.finalproject_ljh.web
 
+import com.nepplus.finalproject_ljh.datas.AppointmentData
 import com.nepplus.finalproject_ljh.datas.BasicResponse
 import retrofit2.Call
 import retrofit2.http.*
@@ -32,6 +33,7 @@ interface ServerAPIService {
                               @Field("latitude")lat: Double,
                               @Field("longitude")lng: Double): Call<BasicResponse>
 
-
+    @GET("/appointment")
+    fun getRequestAppointmentList(): Call<BasicResponse>
 
 }
