@@ -90,7 +90,7 @@ class EditAppoinmentActivity : BaseActivity() {
             val lat = 37.65500913359224
             val lng = 127.24401204238616
 
-            apiService.postRequestAppointment(ContextUtil.getToken(mContext), inputTitle, inputDate, inputPlaceName, lat, lng)
+            apiService.postRequestAppointment(inputTitle, inputDate, inputPlaceName, lat, lng)
                 .enqueue(object : Callback<BasicResponse> {
                     override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 

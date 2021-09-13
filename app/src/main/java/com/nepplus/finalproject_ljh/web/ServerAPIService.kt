@@ -25,7 +25,7 @@ interface ServerAPIService {
 
     @FormUrlEncoded
     @POST("/appointment")
-    fun postRequestAppointment(@Header("X-Http-Token")token: String,
+    fun postRequestAppointment(
                               @Field("title")title: String,
                               @Field("datetime")datetime: String,
                               @Field("place")placeName: String,
