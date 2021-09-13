@@ -19,6 +19,12 @@ class MainActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+        binding.addAppoinmentBtn.setOnClickListener {
+
+
+
+        }
+
     }
 
     override fun setValues() {
