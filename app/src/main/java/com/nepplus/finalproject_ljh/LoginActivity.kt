@@ -15,6 +15,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.nepplus.finalproject_ljh.databinding.ActivityLoginBinding
 import com.nepplus.finalproject_ljh.datas.BasicResponse
 import com.nepplus.finalproject_ljh.utils.ContextUtil
+import com.nepplus.finalproject_ljh.utils.GlobalData
 import com.nepplus.finalproject_ljh.web.ServerAPIService
 import org.json.JSONObject
 import retrofit2.Call
@@ -51,14 +52,21 @@ class LoginActivity : BaseActivity() {
 
                     if (response.isSuccessful) {
                         val basicResponse = response.body()!!
+                        val dataResponse = basicResponse.data
+                        val userResponse = dataResponse.user
 
                         Log.d("server", basicResponse.message)
                         Toast.makeText(mContext, "${basicResponse.message}", Toast.LENGTH_SHORT).show()
 
-                        Log.d("token", basicResponse.data.token)
+                        Log.d("token", dataResponse.token)
 
+                        ContextUtil.setToken(mContext, dataResponse.token)
 
-                        ContextUtil.setToken(mContext, basicResponse.data.token)
+                        Log.d("parse", userResponse.id.toString())
+                        Log.d("parse", userResponse.email)
+                        Log.d("parse", userResponse.provider)
+
+                        GlobalData.loginUser = dataResponse.user
 
                     } else {
 
@@ -109,11 +117,14 @@ class LoginActivity : BaseActivity() {
                                 override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
                                     val basicResponse = response.body()!!
+                                    val dataResponse = basicResponse.data
 
                                     Toast.makeText(mContext, "${basicResponse.message}", Toast.LENGTH_SHORT).show()
                                     Log.d("login", basicResponse.data.token)
 
                                     ContextUtil.setToken(mContext, basicResponse.data.token)
+
+                                    GlobalData.loginUser = dataResponse.user
 
                                 }
 
@@ -156,8 +167,11 @@ class LoginActivity : BaseActivity() {
                                     response: Response<BasicResponse>) {
                                     
                                     val basicResponse = response.body()!!
+                                    val dataResponse = basicResponse.data
 
                                     Toast.makeText(mContext, "${basicResponse.message}", Toast.LENGTH_SHORT).show()
+
+                                    GlobalData.loginUser = dataResponse.user
 
                                 }
 
