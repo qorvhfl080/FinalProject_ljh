@@ -72,15 +72,15 @@ class EditAppoinmentActivity : BaseActivity() {
             val inputDate = ""
             val inputTime = ""
 
-//            if (binding.dateTxt.text == "일자 설정") {
-//                Toast.makeText(mContext, "일자를 설정하세요", Toast.LENGTH_SHORT).show()
-//                return@setOnClickListener
-//            }
-//
-//            if (binding.timeTxt.text == "시간 설정") {
-//                Toast.makeText(mContext, "시간을 설정하세요", Toast.LENGTH_SHORT).show()
-//                return@setOnClickListener
-//            }
+            if (mSelectedDateTime.get(Calendar.YEAR) == null) {
+                Toast.makeText(mContext, "일자를 설정하세요", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (mSelectedDateTime.get(Calendar.MINUTE) == null) {
+                Toast.makeText(mContext, "시간을 설정하세요", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
             val finalDateTime = sdf.format(mSelectedDateTime.time)

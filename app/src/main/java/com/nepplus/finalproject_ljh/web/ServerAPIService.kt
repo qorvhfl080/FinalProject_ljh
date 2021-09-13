@@ -36,4 +36,7 @@ interface ServerAPIService {
     @GET("/appointment")
     fun getRequestAppointmentList(): Call<BasicResponse>
 
+    @GET("/user")
+    fun getRequestMyInfo(): Call<BasicResponse>
+
 }
