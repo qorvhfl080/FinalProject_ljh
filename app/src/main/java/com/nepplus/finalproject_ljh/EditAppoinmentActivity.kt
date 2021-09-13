@@ -4,9 +4,15 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.nepplus.finalproject_ljh.databinding.ActivityEditAppoinmentBinding
+import com.nepplus.finalproject_ljh.datas.BasicResponse
+import com.nepplus.finalproject_ljh.utils.ContextUtil
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -65,21 +71,39 @@ class EditAppoinmentActivity : BaseActivity() {
             val inputDate = ""
             val inputTime = ""
 
-            if (binding.dateTxt.text == "일자 설정") {
-                Toast.makeText(mContext, "일자를 설정하세요", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            if (binding.timeTxt.text == "시간 설정") {
-                Toast.makeText(mContext, "시간을 설정하세요", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+//            if (binding.dateTxt.text == "일자 설정") {
+//                Toast.makeText(mContext, "일자를 설정하세요", Toast.LENGTH_SHORT).show()
+//                return@setOnClickListener
+//            }
+//
+//            if (binding.timeTxt.text == "시간 설정") {
+//                Toast.makeText(mContext, "시간을 설정하세요", Toast.LENGTH_SHORT).show()
+//                return@setOnClickListener
+//            }
 
             val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
             val finalDateTime = sdf.format(mSelectedDateTime.time)
             Toast.makeText(mContext, "${finalDateTime}", Toast.LENGTH_SHORT).show()
 
             val inputPlaceName = binding.placeSearchEdt.text.toString()
+
+            val lat = 37.65500913359224
+            val lng = 127.24401204238616
+
+            apiService.postRequestAppointment(ContextUtil.getToken(mContext), inputTitle, inputDate, inputPlaceName, lat, lng)
+                .enqueue(object : Callback<BasicResponse> {
+                    override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
+
+                        val bodyResponse = response.body()
+
+                        Log.d("response", bodyResponse.toString())
+
+                    }
+
+                    override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                    }
+                })
 
         }
 

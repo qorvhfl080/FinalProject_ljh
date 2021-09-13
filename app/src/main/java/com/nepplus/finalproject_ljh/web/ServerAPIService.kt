@@ -2,10 +2,7 @@ package com.nepplus.finalproject_ljh.web
 
 import com.nepplus.finalproject_ljh.datas.BasicResponse
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
-import retrofit2.http.PUT
+import retrofit2.http.*
 
 interface ServerAPIService {
 
@@ -25,5 +22,14 @@ interface ServerAPIService {
     fun postRequestSocialLogin(@Field("provider")provider: String,
                                @Field("uid")id: String,
                                @Field("nick_name")name: String): Call<BasicResponse>
+
+    @FormUrlEncoded
+    @POST("/appointment")
+    fun postRequestAppointment(@Header("X-Http-Token")token: String,
+                              @Field("title")title: String,
+                              @Field("datetime")datetime: String,
+                              @Field("place")placeName: String,
+                              @Field("latitude")lat: Double,
+                              @Field("longitude")lng: Double): Call<BasicResponse>
 
 }
