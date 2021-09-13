@@ -14,6 +14,7 @@ import com.facebook.login.LoginResult
 import com.kakao.sdk.user.UserApiClient
 import com.nepplus.finalproject_ljh.databinding.ActivityLoginBinding
 import com.nepplus.finalproject_ljh.datas.BasicResponse
+import com.nepplus.finalproject_ljh.utils.ContextUtil
 import com.nepplus.finalproject_ljh.web.ServerAPIService
 import org.json.JSONObject
 import retrofit2.Call
@@ -53,7 +54,11 @@ class LoginActivity : BaseActivity() {
 
                         Log.d("server", basicResponse.message)
                         Toast.makeText(mContext, "${basicResponse.message}", Toast.LENGTH_SHORT).show()
-                        
+
+                        Log.d("token", basicResponse.data.token)
+
+                        ContextUtil.setToken(mContext, basicResponse.data.token)
+
                     } else {
 
                         val errorBodyStr = response.errorBody()!!.toString()
@@ -99,7 +104,7 @@ class LoginActivity : BaseActivity() {
                             "\n${user.kakaoAccount?.profile?.nickname}" +
                             "\n${user.kakaoAccount?.profile?.thumbnailImageUrl}")
 
-                            apiService.postRequestSocialLogin("kakao", user.id.toString(), user.kakaoAccount.profile.nickname.toString()).enqueue(object : Callback<BasicResponse> {
+                            apiService.postRequestSocialLogin("kakao", user.id.toString(), user.kakaoAccount?.profile?.nickname.toString()).enqueue(object : Callback<BasicResponse> {
                                 override fun onResponse(
                                     call: Call<BasicResponse>,
                                     response: Response<BasicResponse>) {
@@ -152,7 +157,7 @@ class LoginActivity : BaseActivity() {
                                     val basicResponse = response.body()!!
 
                                     Toast.makeText(mContext, "${basicResponse.message}", Toast.LENGTH_SHORT).show()
-                                    
+
                                 }
 
                                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
