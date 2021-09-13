@@ -31,6 +31,13 @@ class MainActivity : BaseActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        getAppointmentListFromServer()
+
+    }
+
     override fun setupEvents() {
 
         binding.addAppoinmentBtn.setOnClickListener {
@@ -49,7 +56,7 @@ class MainActivity : BaseActivity() {
         mAppointmentAdapter = AppointmentAdapter(mContext, R.layout.appointment_list_item, mAppointmentList)
         binding.appointmentListView.adapter = mAppointmentAdapter
 
-        getAppointmentListFromServer()
+//        getAppointmentListFromServer()
 
     }
 
@@ -59,6 +66,8 @@ class MainActivity : BaseActivity() {
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
                 val basicResponse = response.body()!!
+
+                mAppointmentList.clear()
 
                 mAppointmentList.addAll(basicResponse.data.appointments)
 

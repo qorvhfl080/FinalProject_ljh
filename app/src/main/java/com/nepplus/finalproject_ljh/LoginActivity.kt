@@ -67,6 +67,8 @@ class LoginActivity : BaseActivity() {
 
                         GlobalData.loginUser = dataResponse.user
 
+                        moveToMain()
+
                     } else {
 
                         val errorBodyStr = response.errorBody()!!.toString()
@@ -125,6 +127,8 @@ class LoginActivity : BaseActivity() {
 
                                     GlobalData.loginUser = dataResponse.user
 
+                                    moveToMain()
+
                                 }
 
                                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
@@ -172,9 +176,8 @@ class LoginActivity : BaseActivity() {
 
                                     GlobalData.loginUser = dataResponse.user
 
-                                    val myIntent = Intent(mContext, MainActivity::class.java)
-                                    startActivity(myIntent)
-                                    finish()
+                                    moveToMain()
+
 
                                 }
 
@@ -243,5 +246,11 @@ class LoginActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         callbackManager.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    fun moveToMain() {
+        val myIntent = Intent(mContext, MainActivity::class.java)
+        startActivity(myIntent)
+        finish()
     }
 }

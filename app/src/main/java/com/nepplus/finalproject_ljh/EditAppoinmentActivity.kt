@@ -97,7 +97,10 @@ class EditAppoinmentActivity : BaseActivity() {
 
                         val bodyResponse = response.body()
 
-                        Log.d("response", bodyResponse.toString())
+                        if (response.isSuccessful) {
+                            Toast.makeText(mContext, "약속 등록 완료", Toast.LENGTH_SHORT).show()
+
+                        }
 
                     }
 
