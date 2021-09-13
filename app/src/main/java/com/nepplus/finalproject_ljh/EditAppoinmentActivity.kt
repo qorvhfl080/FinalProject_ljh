@@ -15,6 +15,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+import net.daum.mf.map.api.MapView as MapView
 
 class EditAppoinmentActivity : BaseActivity() {
 
@@ -110,6 +111,9 @@ class EditAppoinmentActivity : BaseActivity() {
     }
 
     override fun setValues() {
+
+        val mapView = MapView(mContext)
+        binding.mapView.addView(mapView)
 
     }
 }
