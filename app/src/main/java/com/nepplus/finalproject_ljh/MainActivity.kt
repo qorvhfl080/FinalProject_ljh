@@ -46,6 +46,9 @@ class MainActivity : BaseActivity() {
 
         Toast.makeText(mContext, "${GlobalData.loginUser?.nickname}님 환영합니다.", Toast.LENGTH_SHORT).show()
 
+        mAppointmentAdapter = AppointmentAdapter(mContext, R.layout.appointment_list_item, mAppointmentList)
+        binding.appointmentListView.adapter = mAppointmentAdapter
+
         getAppointmentListFromServer()
 
     }
@@ -59,7 +62,7 @@ class MainActivity : BaseActivity() {
 
                 mAppointmentList.addAll(basicResponse.data.appointments)
 
-                mAppointmentAdapter.
+                mAppointmentAdapter.notifyDataSetChanged()
 
             }
 
