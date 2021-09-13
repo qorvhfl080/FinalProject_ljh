@@ -112,8 +112,9 @@ class EditAppoinmentActivity : BaseActivity() {
 
     override fun setValues() {
 
-        val mapView = MapView(mContext)
-        binding.mapView.addView(mapView)
+//        카카오 지도
+//        val mapView = MapView(mContext)
+//        binding.mapView.addView(mapView)
 
     }
 }

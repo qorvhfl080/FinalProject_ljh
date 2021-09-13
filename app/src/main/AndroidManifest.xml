@@ -24,6 +24,9 @@
             android:value="@string/facebook_app_id" />
         <meta-data android:name="com.kakao.sdk.AppKey"
             android:value="8ce5fd66834586e0845dc4bc1b3aa8d4"/>
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="u0y9bmrqfc" />
 
         <activity
             android:name=".EditAppoinmentActivity"
