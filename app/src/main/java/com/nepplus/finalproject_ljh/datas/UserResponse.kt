@@ -7,7 +7,9 @@ class UserResponse(var id: Int,
                    var provider: String,
                    @SerializedName("nick_name")
                    var nickname: String,
-                   var email: String) : Serializable {
+                   var email: String,
+                   @SerializedName("ready_minute")
+                   var readyMinute: Int) : Serializable {
 
 
 
