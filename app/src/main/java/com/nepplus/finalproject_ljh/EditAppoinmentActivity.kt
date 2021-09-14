@@ -12,6 +12,7 @@ import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.overlay.Marker
 import com.nepplus.finalproject_ljh.databinding.ActivityEditAppoinmentBinding
 import com.nepplus.finalproject_ljh.datas.BasicResponse
 import com.nepplus.finalproject_ljh.utils.ContextUtil
@@ -27,6 +28,9 @@ class EditAppoinmentActivity : BaseActivity() {
     lateinit var binding: ActivityEditAppoinmentBinding
 
     val mSelectedDateTime = Calendar.getInstance()
+
+    var mSelectedLat = 0.0
+    var mSelectedLng = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,10 +97,12 @@ class EditAppoinmentActivity : BaseActivity() {
 
             val inputPlaceName = binding.placeSearchEdt.text.toString()
 
-            val lat = 37.65500913359224
-            val lng = 127.24401204238616
+            if (mSelectedLat == 0.0 && mSelectedLng == 0.0) {
+                Toast.makeText(mContext, "약속장소를 지도를 클릭해서 선택해주세요", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-            apiService.postRequestAppointment(inputTitle, inputDate, inputPlaceName, lat, lng)
+            apiService.postRequestAppointment(inputTitle, inputDate, inputPlaceName, mSelectedLat, mSelectedLng)
                 .enqueue(object : Callback<BasicResponse> {
                     override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
@@ -145,6 +151,19 @@ class EditAppoinmentActivity : BaseActivity() {
             val uiSettings = it.uiSettings
             uiSettings.isCompassEnabled = true
             uiSettings.isScaleBarEnabled = false
+
+            val selectedPointMaker = Marker()
+            
+            it.setOnMapClickListener { pointF, latLng ->
+                Toast.makeText(mContext, "위도:${latLng.latitude}, 경도:${latLng.longitude}", Toast.LENGTH_SHORT).show()
+
+                mSelectedLat = latLng.latitude
+                mSelectedLng = latLng.longitude
+
+                selectedPointMaker.position = LatLng(mSelectedLat, mSelectedLng)
+                selectedPointMaker.map = it
+
+            }
 
         }
 
