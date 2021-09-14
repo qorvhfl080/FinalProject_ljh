@@ -13,6 +13,7 @@ import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import com.nepplus.finalproject_ljh.databinding.ActivityEditAppoinmentBinding
 import com.nepplus.finalproject_ljh.datas.BasicResponse
 import com.nepplus.finalproject_ljh.utils.ContextUtil
@@ -153,6 +154,7 @@ class EditAppoinmentActivity : BaseActivity() {
             uiSettings.isScaleBarEnabled = false
 
             val selectedPointMaker = Marker()
+            selectedPointMaker.icon = OverlayImage.fromResource(R.drawable.marker_icon_small)
             
             it.setOnMapClickListener { pointF, latLng ->
                 Toast.makeText(mContext, "위도:${latLng.latitude}, 경도:${latLng.longitude}", Toast.LENGTH_SHORT).show()

@@ -1,6 +1,7 @@
 package com.nepplus.finalproject_ljh.datas
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 class AppointmentData(var id: Int,
                       @SerializedName("user_id")
@@ -13,7 +14,7 @@ class AppointmentData(var id: Int,
                       var longitude: Double,
                       @SerializedName("created_at")
                       var createdAt: String,
-                      var user: UserResponse) {
+                      var user: UserResponse) : Serializable {
 
     // lol
 
