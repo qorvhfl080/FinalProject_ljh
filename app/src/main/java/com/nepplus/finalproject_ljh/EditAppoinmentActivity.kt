@@ -7,6 +7,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.MapFragment
+import com.naver.maps.map.NaverMap
+import com.naver.maps.map.OnMapReadyCallback
 import com.nepplus.finalproject_ljh.databinding.ActivityEditAppoinmentBinding
 import com.nepplus.finalproject_ljh.datas.BasicResponse
 import com.nepplus.finalproject_ljh.utils.ContextUtil
@@ -119,5 +124,25 @@ class EditAppoinmentActivity : BaseActivity() {
 //        val mapView = MapView(mContext)
 //        binding.mapView.addView(mapView)
 
+        val fm = supportFragmentManager
+        val mapFragment = fm.findFragmentById(R.id.naverMapView) as MapFragment?
+            ?: MapFragment.newInstance().also {
+                fm.beginTransaction().add(R.id.naverMapView, it).commit()
+            }
+
+        mapFragment.getMapAsync {
+            Log.d("naverMap", it.toString())
+
+            it.mapType = NaverMap.MapType.Hybrid
+
+            val neppplusCoord = LatLng(37.6550358582405, 127.24404943381579)
+
+            val cameraUpdate = CameraUpdate.scrollTo(neppplusCoord)
+            it.moveCamera(cameraUpdate)
+
+        }
+
     }
+
+
 }
