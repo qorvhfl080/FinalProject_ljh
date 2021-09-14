@@ -2,6 +2,7 @@ package com.nepplus.finalproject_ljh
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
@@ -54,20 +55,48 @@ class ViewMapActivity : BaseActivity() {
             it.moveCamera(cameraUpdate)
 
             val infoWindow = InfoWindow()
-            infoWindow.adapter = object : InfoWindow.DefaultViewAdapter(mContext) {
-                override fun getContentView(p0: InfoWindow): View {
 
-                    val myView = LayoutInflater.from(mContext).inflate(R.layout.my_custom_info_window, null)
+            val myODsayService = ODsayService.init(mContext, "dh5CD8SqiwYKb95ygeXedLrrP9TkQ1MKp6qHe+tHc88")
+            myODsayService.requestSearchPubTransPath(127.24404177611704.toString(), 37.655017048675475.toString(),
+                mAppointmentData.longitude.toString(), mAppointmentData.latitude.toString(), null, null, null, object : OnResultCallbackListener {
+                    override fun onSuccess(p0: ODsayData?, p1: API?) {
+                        val jsonObj = p0!!.json
+                        val resultObj = jsonObj.getJSONObject("result")
+                        val pathArr = resultObj.getJSONArray("path")
 
-                    val placeName = myView.findViewById<TextView>(R.id.placeNameTxt)
-                    val arrivalTime = myView.findViewById<TextView>(R.id.arrivalTimeTxt)
+                        val firstPath = pathArr.getJSONObject(0)
+                        val infoObj = firstPath.getJSONObject("info")
 
-                    placeName.text = mAppointmentData.placeName
-                    arrivalTime.text = "##시간 소요 예상"
+                        val totalTime = infoObj.getInt("totalTime")
 
-                    return myView
-                }
-            }
+                        val hour = totalTime / 60
+                        val minute = totalTime % 60
+
+                        infoWindow.adapter = object : InfoWindow.DefaultViewAdapter(mContext) {
+                            override fun getContentView(p0: InfoWindow): View {
+                                val myView = LayoutInflater.from(mContext).inflate(R.layout.my_custom_info_window, null)
+
+                                val placeName = myView.findViewById<TextView>(R.id.placeNameTxt)
+                                val arrivalTime = myView.findViewById<TextView>(R.id.arrivalTimeTxt)
+
+                                placeName.text = mAppointmentData.placeName
+
+                                if (hour == 0) {
+                                    arrivalTime.text = "${minute}분 소요 예정"
+                                } else {
+                                    arrivalTime.text = "${hour}시간 ${minute}분 소요 예정"
+                                }
+
+                                return myView
+                            }
+                        }
+
+                    }
+                    override fun onError(p0: Int, p1: String?, p2: API?) {
+
+                    }
+                })
+
 //            infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(mContext) {
 //                override fun getText(p0: InfoWindow): CharSequence {
 //                    return "약속 장소 : ${mAppointmentData.placeName}"
