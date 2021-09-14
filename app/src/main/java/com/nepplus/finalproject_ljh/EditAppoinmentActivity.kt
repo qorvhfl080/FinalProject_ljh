@@ -135,10 +135,16 @@ class EditAppoinmentActivity : BaseActivity() {
 
             it.mapType = NaverMap.MapType.Hybrid
 
+            it.minZoom = 12.0
+
             val neppplusCoord = LatLng(37.6550358582405, 127.24404943381579)
 
             val cameraUpdate = CameraUpdate.scrollTo(neppplusCoord)
             it.moveCamera(cameraUpdate)
+
+            val uiSettings = it.uiSettings
+            uiSettings.isCompassEnabled = true
+            uiSettings.isScaleBarEnabled = false
 
         }
 
