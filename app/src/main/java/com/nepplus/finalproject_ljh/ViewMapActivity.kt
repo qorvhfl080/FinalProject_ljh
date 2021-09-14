@@ -4,6 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.MapFragment
+import com.naver.maps.map.overlay.Marker
 import com.nepplus.finalproject_ljh.databinding.ActivityViewMapBinding
 import com.nepplus.finalproject_ljh.datas.AppointmentData
 
@@ -28,6 +32,24 @@ class ViewMapActivity : BaseActivity() {
     override fun setValues() {
         
         mAppointmentData = intent.getSerializableExtra("appointment") as AppointmentData
-        
+
+        val fm = supportFragmentManager
+        val mapFragment = fm.findFragmentById(R.id.naverMapView) as MapFragment?
+            ?: MapFragment.newInstance().also {
+                fm.beginTransaction().add(R.id.naverMapView, it).commit()
+            }
+
+        mapFragment.getMapAsync {
+
+            val appointmentLatLng = LatLng(mAppointmentData.latitude, mAppointmentData.longitude)
+            val cameraUpdate = CameraUpdate.scrollTo(appointmentLatLng)
+            val marker = Marker()
+
+            marker.position = appointmentLatLng
+            marker.map = it
+            it.moveCamera(cameraUpdate)
+
+        }
+
     }
 }

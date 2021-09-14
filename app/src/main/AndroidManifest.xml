@@ -17,7 +17,8 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ViewMapActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Theme.Design.Light.NoActionBar"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
