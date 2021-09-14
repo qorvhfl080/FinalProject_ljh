@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.naver.maps.geometry.LatLng
@@ -57,6 +58,12 @@ class ViewMapActivity : BaseActivity() {
                 override fun getContentView(p0: InfoWindow): View {
 
                     val myView = LayoutInflater.from(mContext).inflate(R.layout.my_custom_info_window, null)
+
+                    val placeName = myView.findViewById<TextView>(R.id.placeNameTxt)
+                    val arrivalTime = myView.findViewById<TextView>(R.id.arrivalTimeTxt)
+
+                    placeName.text = mAppointmentData.placeName
+                    arrivalTime.text = mAppointmentData.datetime
 
                     return myView
                 }
