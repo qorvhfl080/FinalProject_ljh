@@ -9,7 +9,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import com.nepplus.finalproject_ljh.databinding.ActivityMySettingBinding
+import com.nepplus.finalproject_ljh.datas.BasicResponse
 import com.nepplus.finalproject_ljh.utils.GlobalData
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MySettingActivity : BaseActivity() {
 
@@ -37,7 +41,23 @@ class MySettingActivity : BaseActivity() {
                 
                 val minuteEdt = customView.findViewById<TextView>(R.id.minuteEdt)
 
-                Toast.makeText(mContext, "${minuteEdt.text}", Toast.LENGTH_SHORT).show()
+                apiService.patchRequestMyInfo("ready_minute", minuteEdt.text.toString())
+                    .enqueue(object : Callback<BasicResponse> {
+                        override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
+                            if (response.isSuccessful) {
+
+
+
+
+
+
+
+                        }
+                        override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                        }
+                    })
+
             })
             alert.setNegativeButton("취소", null)
             alert.show()

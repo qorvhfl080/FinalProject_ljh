@@ -26,17 +26,21 @@ interface ServerAPIService {
 
     @FormUrlEncoded
     @POST("/appointment")
-    fun postRequestAppointment(
-                              @Field("title")title: String,
-                              @Field("datetime")datetime: String,
-                              @Field("place")placeName: String,
-                              @Field("latitude")lat: Double,
-                              @Field("longitude")lng: Double): Call<BasicResponse>
+    fun postRequestAppointment(@Field("title")title: String,
+                               @Field("datetime")datetime: String,
+                               @Field("place")placeName: String,
+                               @Field("latitude")lat: Double,
+                               @Field("longitude")lng: Double): Call<BasicResponse>
 
     @GET("/appointment")
     fun getRequestAppointmentList(): Call<BasicResponse>
 
     @GET("/user")
     fun getRequestMyInfo(): Call<BasicResponse>
+
+    @FormUrlEncoded
+    @PATCH("/user")
+    fun patchRequestMyInfo(@Field("field")field: String,
+                           @Field("value")value: String): Call<BasicResponse>
 
 }
