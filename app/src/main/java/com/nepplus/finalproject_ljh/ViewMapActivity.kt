@@ -35,6 +35,8 @@ class ViewMapActivity : BaseActivity() {
     }
 
     override fun setValues() {
+
+        titleTxt.text = "약속 장소 확인"
         
         mAppointmentData = intent.getSerializableExtra("appointment") as AppointmentData
 

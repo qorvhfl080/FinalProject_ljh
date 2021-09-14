@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.nepplus.colosseum.adapters.AppointmentAdapter
@@ -56,7 +57,8 @@ class MainActivity : BaseActivity() {
         mAppointmentAdapter = AppointmentAdapter(mContext, R.layout.appointment_list_item, mAppointmentList)
         binding.appointmentListView.adapter = mAppointmentAdapter
 
-//        getAppointmentListFromServer()
+        profileImg.visibility = View.VISIBLE
+        titleTxt.text = "메인 화면"
 
     }
 
