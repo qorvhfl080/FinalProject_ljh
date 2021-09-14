@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
+import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.nepplus.finalproject_ljh.databinding.ActivityViewMapBinding
 import com.nepplus.finalproject_ljh.datas.AppointmentData
@@ -48,6 +49,14 @@ class ViewMapActivity : BaseActivity() {
             marker.position = appointmentLatLng
             marker.map = it
             it.moveCamera(cameraUpdate)
+
+            val infoWindow = InfoWindow()
+            infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(mContext) {
+                override fun getText(p0: InfoWindow): CharSequence {
+                    return "약속 장소 : ${mAppointmentData.placeName}"
+                }
+            }
+            infoWindow.open(marker)
 
         }
 
