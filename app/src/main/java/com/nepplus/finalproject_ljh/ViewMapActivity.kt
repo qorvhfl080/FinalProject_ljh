@@ -2,6 +2,8 @@ package com.nepplus.finalproject_ljh
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.naver.maps.geometry.LatLng
@@ -51,14 +53,23 @@ class ViewMapActivity : BaseActivity() {
             it.moveCamera(cameraUpdate)
 
             val infoWindow = InfoWindow()
-            infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(mContext) {
-                override fun getText(p0: InfoWindow): CharSequence {
-                    return "약속 장소 : ${mAppointmentData.placeName}"
+            infoWindow.adapter = object : InfoWindow.DefaultViewAdapter(mContext) {
+                override fun getContentView(p0: InfoWindow): View {
+
+                    val myView = LayoutInflater.from(mContext).inflate(R.layout.my_custom_info_window, null)
+
+                    return myView
                 }
             }
+//            infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(mContext) {
+//                override fun getText(p0: InfoWindow): CharSequence {
+//                    return "약속 장소 : ${mAppointmentData.placeName}"
+//                }
+//            }
             infoWindow.open(marker)
 
         }
 
     }
+
 }
