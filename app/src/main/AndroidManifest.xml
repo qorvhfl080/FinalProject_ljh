@@ -16,9 +16,12 @@
         android:theme="@style/Theme.FinalProject_ljh"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".MySettingActivity"
+            android:exported="true" />
+        <activity
             android:name=".ViewMapActivity"
             android:exported="true"
-            android:theme="@style/Theme.Design.Light.NoActionBar"/>
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -71,7 +74,7 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true"
-            android:theme="@style/Theme.Design.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.Design.Light.NoActionBar" />
     </application>
 
 </manifest>

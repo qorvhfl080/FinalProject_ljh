@@ -48,6 +48,10 @@ class MainActivity : BaseActivity() {
 
         }
 
+        profileImg.setOnClickListener {
+            startActivity(Intent(mContext, MySettingActivity::class.java))
+        }
+
     }
 
     override fun setValues() {
