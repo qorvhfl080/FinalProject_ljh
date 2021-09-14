@@ -63,7 +63,7 @@ class ViewMapActivity : BaseActivity() {
                     val arrivalTime = myView.findViewById<TextView>(R.id.arrivalTimeTxt)
 
                     placeName.text = mAppointmentData.placeName
-                    arrivalTime.text = mAppointmentData.datetime
+                    arrivalTime.text = "##시간 소요 예상"
 
                     return myView
                 }
@@ -74,6 +74,25 @@ class ViewMapActivity : BaseActivity() {
 //                }
 //            }
             infoWindow.open(marker)
+
+            it.setOnMapClickListener { pointF, latLng ->
+
+                infoWindow.close()
+
+            }
+
+            marker.setOnClickListener {
+
+                val clickedMarker = it as Marker
+
+                if (clickedMarker.infoWindow == null) {
+                    infoWindow.open(clickedMarker)
+                } else {
+                    infoWindow.close()
+                }
+
+                return@setOnClickListener true
+            }
 
         }
 
