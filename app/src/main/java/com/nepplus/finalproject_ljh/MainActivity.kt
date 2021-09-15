@@ -7,7 +7,9 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.nepplus.colosseum.adapters.AppointmentAdapter
+import com.nepplus.finalproject_ljh.adapters.AppointmentRecyclerAdapter
 import com.nepplus.finalproject_ljh.databinding.ActivityMainBinding
 import com.nepplus.finalproject_ljh.datas.AppointmentData
 import com.nepplus.finalproject_ljh.datas.BasicResponse
@@ -21,6 +23,7 @@ class MainActivity : BaseActivity() {
     lateinit var binding: ActivityMainBinding
 
     lateinit var mAppointmentAdapter: AppointmentAdapter
+    lateinit var mRecyclerAdapter: AppointmentRecyclerAdapter
 
     val mAppointmentList = ArrayList<AppointmentData>()
 
@@ -58,8 +61,11 @@ class MainActivity : BaseActivity() {
 
         Toast.makeText(mContext, "${GlobalData.loginUser?.nickname}님 환영합니다.", Toast.LENGTH_SHORT).show()
 
-        mAppointmentAdapter = AppointmentAdapter(mContext, R.layout.appointment_list_item, mAppointmentList)
-        binding.appointmentListView.adapter = mAppointmentAdapter
+//        mAppointmentAdapter = AppointmentAdapter(mContext, R.layout.appointment_list_item, mAppointmentList)
+//        binding.appointmentListView.adapter = mAppointmentAdapter
+        mRecyclerAdapter = AppointmentRecyclerAdapter(mContext, mAppointmentList)
+        binding.appointmentRecyclerView.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+        binding.appointmentRecyclerView.adapter = mRecyclerAdapter
 
         profileImg.visibility = View.VISIBLE
         titleTxt.text = "메인 화면"
@@ -77,7 +83,7 @@ class MainActivity : BaseActivity() {
 
                 mAppointmentList.addAll(basicResponse.data.appointments)
 
-                mAppointmentAdapter.notifyDataSetChanged()
+                mRecyclerAdapter.notifyDataSetChanged()
 
             }
 
