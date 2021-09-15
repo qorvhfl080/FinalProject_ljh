@@ -12,6 +12,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
+import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.overlay.PathOverlay
@@ -47,6 +48,10 @@ class EditAppoinmentActivity : BaseActivity() {
     val mStartPlaceMarker = Marker()
 
     val mPath = PathOverlay()
+
+    val selectedPointMaker = Marker()
+
+    val mInfoWindow = InfoWindow()
 
     var mNaverMap: NaverMap? = null
 
@@ -213,7 +218,7 @@ class EditAppoinmentActivity : BaseActivity() {
             uiSettings.isCompassEnabled = true
             uiSettings.isScaleBarEnabled = false
 
-            val selectedPointMaker = Marker()
+
             selectedPointMaker.icon = OverlayImage.fromResource(R.drawable.marker_icon_small)
             
             it.setOnMapClickListener { pointF, latLng ->
@@ -251,7 +256,17 @@ class EditAppoinmentActivity : BaseActivity() {
                     val resultObj = jsonObj.getJSONObject("result")
                     val pathArr = resultObj.getJSONArray("path")
                     val firstPathObj = pathArr.getJSONObject(0)
+                    val infoObj = firstPathObj.getJSONObject("info")
+                    val totalTime = infoObj.getInt("totalTime")
                     val subPathArr = firstPathObj.getJSONArray("subPath")
+
+                    mInfoWindow.adapter = object : InfoWindow.DefaultTextAdapter(mContext) {
+                        override fun getText(p0: InfoWindow): CharSequence {
+
+                            return "${totalTime}분 소요 예정"
+                        }
+                    }
+                    mInfoWindow.open(selectedPointMaker)
 
                     for (i in 0 until subPathArr.length()) {
                         val subPathObj = subPathArr.getJSONObject(i)
