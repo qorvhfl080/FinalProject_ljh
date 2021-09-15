@@ -255,6 +255,24 @@ class EditAppoinmentActivity : BaseActivity() {
 
                     for (i in 0 until subPathArr.length()) {
                         val subPathObj = subPathArr.getJSONObject(i)
+
+                        if (!subPathObj.isNull("passStopList")) {
+
+                            val passStopListObj = subPathObj.getJSONObject("passStopList")
+                            val stationsArr = passStopListObj.getJSONArray("stations")
+
+                            for (j in 0 until stationsArr.length()) {
+
+                                val stationObj = stationsArr.getJSONObject(j)
+
+                                val latLng = LatLng(stationObj.getString("y").toDouble(), stationObj.getString("x").toDouble())
+
+                                points.add(latLng)
+
+                            }
+
+                        }
+
                     }
 
                     points.add(LatLng(mSelectedLat, mSelectedLng))
