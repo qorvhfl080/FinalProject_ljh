@@ -26,6 +26,36 @@ class StartPlaceSpinnerAdapter(val mContext: Context, resId: Int, val mList: Lis
 
         val data = mList[position]
 
+        val placeNameTxt = row.findViewById<TextView>(R.id.placeNameTxt)
+        val isPrimaryTxt = row.findViewById<TextView>(R.id.isPrimaryTxt)
+        val viewPlaceMapBtn = row.findViewById<ImageView>(R.id.viewPlaceMapBtn)
+
+        if (data.isPrimary)
+            isPrimaryTxt.visibility = View.VISIBLE
+        else
+            isPrimaryTxt.visibility = View.GONE
+
+        return row
+    }
+
+    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+        var row = convertView
+        if (row == null) {
+            row = mInflater.inflate(R.layout.my_place_list_item, null)
+        }
+        row!!
+
+        val data = mList[position]
+
+        val placeNameTxt = row.findViewById<TextView>(R.id.placeNameTxt)
+        val isPrimaryTxt = row.findViewById<TextView>(R.id.isPrimaryTxt)
+        val viewPlaceMapBtn = row.findViewById<ImageView>(R.id.viewPlaceMapBtn)
+
+        if (data.isPrimary)
+            isPrimaryTxt.visibility = View.VISIBLE
+        else
+            isPrimaryTxt.visibility = View.GONE
+
         return row
     }
 

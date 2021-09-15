@@ -14,14 +14,17 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
+import com.nepplus.colosseum.adapters.StartPlaceSpinnerAdapter
 import com.nepplus.finalproject_ljh.databinding.ActivityEditAppoinmentBinding
 import com.nepplus.finalproject_ljh.datas.BasicResponse
+import com.nepplus.finalproject_ljh.datas.PlaceData
 import com.nepplus.finalproject_ljh.utils.ContextUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 import net.daum.mf.map.api.MapView as MapView
 
 class EditAppoinmentActivity : BaseActivity() {
@@ -32,6 +35,9 @@ class EditAppoinmentActivity : BaseActivity() {
 
     var mSelectedLat = 0.0
     var mSelectedLng = 0.0
+
+    val mStartPlaceList = ArrayList<PlaceData>()
+    lateinit var mSpinnerAdapter: StartPlaceSpinnerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,6 +134,29 @@ class EditAppoinmentActivity : BaseActivity() {
     override fun setValues() {
 
         titleTxt.text = "약속 잡기"
+
+        mSpinnerAdapter = StartPlaceSpinnerAdapter(mContext, R.layout.my_place_list_item, mStartPlaceList)
+        binding.startPlaceSpinner.adapter = mSpinnerAdapter
+
+        apiService.getRequestMyPlaceList().enqueue(object : Callback<BasicResponse> {
+            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
+                if (response.isSuccessful) {
+
+                    val basicResponse = response.body()!!
+
+                    mStartPlaceList.clear()
+                    mStartPlaceList.addAll(basicResponse.data.places)
+
+                    mSpinnerAdapter.notifyDataSetChanged()
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+            }
+        })
 
 //        카카오 지도
 //        val mapView = MapView(mContext)
