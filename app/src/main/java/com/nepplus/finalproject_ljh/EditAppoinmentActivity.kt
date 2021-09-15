@@ -44,6 +44,10 @@ class EditAppoinmentActivity : BaseActivity() {
 
     lateinit var mSelectedStartPlace: PlaceData
 
+    val mPolyLine = PolylineOverlay()
+
+    var mNaverMap: NaverMap? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_appoinment)
@@ -59,6 +63,11 @@ class EditAppoinmentActivity : BaseActivity() {
                 Log.d("position", position.toString())
 
                 mSelectedStartPlace = mStartPlaceList[position]
+
+                mNaverMap?.let {
+                    drawStartPlaceToDestination(it)
+                }
+
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -187,6 +196,7 @@ class EditAppoinmentActivity : BaseActivity() {
 
         mapFragment.getMapAsync {
             Log.d("naverMap", it.toString())
+            mNaverMap = it
 
             it.mapType = NaverMap.MapType.Hybrid
 
@@ -227,9 +237,9 @@ class EditAppoinmentActivity : BaseActivity() {
         points.add(LatLng(mSelectedStartPlace.latitude, mSelectedStartPlace.longitude))
         points.add(LatLng(mSelectedLat, mSelectedLng))
 
-        val polyline = PolylineOverlay()
-        polyline.coords = points
-        polyline.map = naverMap
+        //val polyline = PolylineOverlay()
+        mPolyLine.coords = points
+        mPolyLine.map = naverMap
 
     }
 
