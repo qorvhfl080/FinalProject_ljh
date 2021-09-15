@@ -247,7 +247,15 @@ class EditAppoinmentActivity : BaseActivity() {
             null, null, null, object : OnResultCallbackListener {
                 override fun onSuccess(p0: ODsayData?, p1: API?) {
 
+                    val jsonObj = p0!!.json
+                    val resultObj = jsonObj.getJSONObject("result")
+                    val pathArr = resultObj.getJSONArray("path")
+                    val firstPathObj = pathArr.getJSONObject(0)
+                    val subPathArr = firstPathObj.getJSONArray("subPath")
 
+                    for (i in 0 until subPathArr.length()) {
+                        val subPathObj = subPathArr.getJSONObject(i)
+                    }
 
                     points.add(LatLng(mSelectedLat, mSelectedLng))
 
