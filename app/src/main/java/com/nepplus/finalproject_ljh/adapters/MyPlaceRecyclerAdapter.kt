@@ -15,8 +15,6 @@ import com.nepplus.finalproject_ljh.datas.PlaceData
 
 class MyPlaceRecyclerAdapter(val mContext: Context, val mList: List<PlaceData>) : RecyclerView.Adapter<MyPlaceRecyclerAdapter.MyViewHolder>() {
 
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
 //        val binding = MyPlaceListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 //        return MyViewHolder(binding)
@@ -26,6 +24,12 @@ class MyPlaceRecyclerAdapter(val mContext: Context, val mList: List<PlaceData>) 
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+
+        val data = mList[position]
+
+        holder.placeNameTxt.text = data.name
+        holder.isPrimaryTxt.text = data.isPrimary.toString()
+        //holder.viewPlaceMapBtn.setImageResource()
 
     }
 
