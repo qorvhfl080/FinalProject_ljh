@@ -5,6 +5,8 @@ import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.naver.maps.geometry.LatLng
@@ -14,6 +16,7 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
+import com.naver.maps.map.overlay.PolylineOverlay
 import com.nepplus.colosseum.adapters.StartPlaceSpinnerAdapter
 import com.nepplus.finalproject_ljh.databinding.ActivityEditAppoinmentBinding
 import com.nepplus.finalproject_ljh.datas.BasicResponse
@@ -39,6 +42,8 @@ class EditAppoinmentActivity : BaseActivity() {
     val mStartPlaceList = ArrayList<PlaceData>()
     lateinit var mSpinnerAdapter: StartPlaceSpinnerAdapter
 
+    lateinit var mSelectedStartPlace: PlaceData
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_appoinment)
@@ -48,6 +53,18 @@ class EditAppoinmentActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        binding.startPlaceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                Log.d("position", position.toString())
+
+                mSelectedStartPlace = mStartPlaceList[position]
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
 
         binding.dateTxt.setOnClickListener {
 
@@ -188,7 +205,7 @@ class EditAppoinmentActivity : BaseActivity() {
             selectedPointMaker.icon = OverlayImage.fromResource(R.drawable.marker_icon_small)
             
             it.setOnMapClickListener { pointF, latLng ->
-                Toast.makeText(mContext, "위도:${latLng.latitude}, 경도:${latLng.longitude}", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(mContext, "위도:${latLng.latitude}, 경도:${latLng.longitude}", Toast.LENGTH_SHORT).show()
 
                 mSelectedLat = latLng.latitude
                 mSelectedLng = latLng.longitude
@@ -196,11 +213,24 @@ class EditAppoinmentActivity : BaseActivity() {
                 selectedPointMaker.position = LatLng(mSelectedLat, mSelectedLng)
                 selectedPointMaker.map = it
 
+                drawStartPlaceToDestination(it)
+
             }
 
         }
 
     }
 
+    fun drawStartPlaceToDestination(naverMap: NaverMap) {
+
+        val points = ArrayList<LatLng>()
+        points.add(LatLng(mSelectedStartPlace.latitude, mSelectedStartPlace.longitude))
+        points.add(LatLng(mSelectedLat, mSelectedLng))
+
+        val polyline = PolylineOverlay()
+        polyline.coords = points
+        polyline.map = naverMap
+
+    }
 
 }

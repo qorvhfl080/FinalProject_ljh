@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="20dp"
+        android:padding="10dp"
         tools:context=".EditAppoinmentActivity">
 
         <TextView
@@ -60,15 +60,16 @@
             android:text="일자/시간 설정을 눌러서 약속 일시를 선택하세요"/>
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="출발지"
             android:layout_marginTop="15dp"/>
 
         <Spinner
             android:id="@+id/startPlaceSpinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:spinnerMode="dialog"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -107,7 +108,7 @@
         <fragment
             android:id="@+id/naverMapView"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="200dp"
             app:navermap_zoom="3"
             class="com.naver.maps.map.MapFragment"/>
 
@@ -116,7 +117,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="약속 등록하기"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 </layout>

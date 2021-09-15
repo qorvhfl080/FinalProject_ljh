@@ -124,8 +124,9 @@ class MySettingActivity : BaseActivity() {
         }
 
         when(GlobalData.loginUser!!.provider) {
-            "facebook" -> binding.socialLoginImg.setImageResource(R.drawable.)
-            "kakao" -> binding.socialLoginImg.setImageR
+            // 이미지 파일 수정 필요
+            "facebook" -> binding.socialLoginImg.setImageResource(R.drawable.default_profile)
+            "kakao" -> binding.socialLoginImg.setImageResource(R.drawable.default_profile)
             else -> binding.socialLoginImg.visibility = View.GONE
         }
 

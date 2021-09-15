@@ -15,6 +15,10 @@ import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.nepplus.finalproject_ljh.databinding.ActivityViewMapBinding
 import com.nepplus.finalproject_ljh.datas.AppointmentData
+import com.odsay.odsayandroidsdk.API
+import com.odsay.odsayandroidsdk.ODsayData
+import com.odsay.odsayandroidsdk.ODsayService
+import com.odsay.odsayandroidsdk.OnResultCallbackListener
 
 class ViewMapActivity : BaseActivity() {
 
@@ -60,7 +64,8 @@ class ViewMapActivity : BaseActivity() {
 
             val myODsayService = ODsayService.init(mContext, "dh5CD8SqiwYKb95ygeXedLrrP9TkQ1MKp6qHe+tHc88")
             myODsayService.requestSearchPubTransPath(127.24404177611704.toString(), 37.655017048675475.toString(),
-                mAppointmentData.longitude.toString(), mAppointmentData.latitude.toString(), null, null, null, object : OnResultCallbackListener {
+                mAppointmentData.longitude.toString(), mAppointmentData.latitude.toString(), null, null, null, object :
+                    OnResultCallbackListener {
                     override fun onSuccess(p0: ODsayData?, p1: API?) {
                         val jsonObj = p0!!.json
                         val resultObj = jsonObj.getJSONObject("result")

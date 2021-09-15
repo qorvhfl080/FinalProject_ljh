@@ -31,7 +31,7 @@ class AppointmentAdapter(val mContext: Context, resId: Int, val mList: List<Appo
         val viewPlaceMap = row.findViewById<ImageView>(R.id.viewPlaceMapBtn)
 
         title.text = data.title
-        dateTime.text = data.datetime
+        dateTime.text = data.getFormattedDateTime()
         place.text = data.placeName
         viewPlaceMap.setOnClickListener {
 

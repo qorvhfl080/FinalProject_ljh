@@ -30,6 +30,8 @@ class StartPlaceSpinnerAdapter(val mContext: Context, resId: Int, val mList: Lis
         val isPrimaryTxt = row.findViewById<TextView>(R.id.isPrimaryTxt)
         val viewPlaceMapBtn = row.findViewById<ImageView>(R.id.viewPlaceMapBtn)
 
+        placeNameTxt.text = data.name
+
         if (data.isPrimary)
             isPrimaryTxt.visibility = View.VISIBLE
         else
@@ -50,6 +52,8 @@ class StartPlaceSpinnerAdapter(val mContext: Context, resId: Int, val mList: Lis
         val placeNameTxt = row.findViewById<TextView>(R.id.placeNameTxt)
         val isPrimaryTxt = row.findViewById<TextView>(R.id.isPrimaryTxt)
         val viewPlaceMapBtn = row.findViewById<ImageView>(R.id.viewPlaceMapBtn)
+
+        placeNameTxt.text = data.name
 
         if (data.isPrimary)
             isPrimaryTxt.visibility = View.VISIBLE
