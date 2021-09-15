@@ -1,6 +1,7 @@
 package com.nepplus.finalproject_ljh.web
 
 import android.content.Context
+import com.google.gson.GsonBuilder
 import com.nepplus.finalproject_ljh.utils.ContextUtil
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -31,10 +32,12 @@ class ServerAPI {
 
                 val myClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
 
+                val gson = GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create()
+
                 retrofit = Retrofit.Builder()
                     .baseUrl(hostURL)
                     .client(myClient)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build()
             }
 
