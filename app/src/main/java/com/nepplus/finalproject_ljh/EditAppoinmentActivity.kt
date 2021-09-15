@@ -2,7 +2,6 @@ package com.nepplus.finalproject_ljh
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,22 +12,19 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
-import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
-import com.naver.maps.map.overlay.PolylineOverlay
+import com.naver.maps.map.overlay.PathOverlay
 import com.nepplus.colosseum.adapters.StartPlaceSpinnerAdapter
 import com.nepplus.finalproject_ljh.databinding.ActivityEditAppoinmentBinding
 import com.nepplus.finalproject_ljh.datas.BasicResponse
 import com.nepplus.finalproject_ljh.datas.PlaceData
-import com.nepplus.finalproject_ljh.utils.ContextUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import net.daum.mf.map.api.MapView as MapView
 
 class EditAppoinmentActivity : BaseActivity() {
 
@@ -44,7 +40,9 @@ class EditAppoinmentActivity : BaseActivity() {
 
     lateinit var mSelectedStartPlace: PlaceData
 
-    val mPolyLine = PolylineOverlay()
+    val mStartPlaceMarker = Marker()
+
+    val mPath = PathOverlay()
 
     var mNaverMap: NaverMap? = null
 
@@ -233,13 +231,16 @@ class EditAppoinmentActivity : BaseActivity() {
 
     fun drawStartPlaceToDestination(naverMap: NaverMap) {
 
+        mStartPlaceMarker.position = LatLng(mSelectedStartPlace.latitude, mSelectedStartPlace.longitude)
+        mStartPlaceMarker.map = naverMap
+
         val points = ArrayList<LatLng>()
         points.add(LatLng(mSelectedStartPlace.latitude, mSelectedStartPlace.longitude))
         points.add(LatLng(mSelectedLat, mSelectedLng))
 
         //val polyline = PolylineOverlay()
-        mPolyLine.coords = points
-        mPolyLine.map = naverMap
+        mPath.coords = points
+        mPath.map = naverMap
 
     }
 
