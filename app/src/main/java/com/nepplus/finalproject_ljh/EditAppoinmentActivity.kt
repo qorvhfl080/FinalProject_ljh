@@ -149,7 +149,11 @@ class EditAppoinmentActivity : BaseActivity() {
                 return@setOnClickListener
             }
 
-            apiService.postRequestAppointment(inputTitle, inputDate, inputPlaceName, mSelectedLat, mSelectedLng)
+
+
+            apiService.postRequestAppointment(inputTitle, inputDate, mSelectedStartPlace.name,
+                mSelectedStartPlace.latitude, mSelectedStartPlace.longitude, inputPlaceName,
+                mSelectedLat, mSelectedLng)
                 .enqueue(object : Callback<BasicResponse> {
                     override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 

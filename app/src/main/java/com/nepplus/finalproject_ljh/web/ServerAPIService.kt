@@ -28,6 +28,9 @@ interface ServerAPIService {
     @POST("/appointment")
     fun postRequestAppointment(@Field("title")title: String,
                                @Field("datetime")datetime: String,
+                               @Field("start_place")StartPlaceName: String,
+                               @Field("start_latitude")StartLat: Double,
+                               @Field("start_longitude")StartLng: Double,
                                @Field("place")placeName: String,
                                @Field("latitude")lat: Double,
                                @Field("longitude")lng: Double): Call<BasicResponse>
