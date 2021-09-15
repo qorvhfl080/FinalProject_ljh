@@ -65,6 +65,13 @@ class EditAppoinmentActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+        binding.scrollHelpTxt.setOnTouchListener { view, motionEvent ->
+
+            binding.scrollView.requestDisallowInterceptTouchEvent(true)
+
+            return@setOnTouchListener false
+        }
+
         binding.startPlaceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 Log.d("position", position.toString())
