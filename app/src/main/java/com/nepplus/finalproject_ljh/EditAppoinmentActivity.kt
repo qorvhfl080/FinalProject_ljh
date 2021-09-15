@@ -19,6 +19,10 @@ import com.nepplus.colosseum.adapters.StartPlaceSpinnerAdapter
 import com.nepplus.finalproject_ljh.databinding.ActivityEditAppoinmentBinding
 import com.nepplus.finalproject_ljh.datas.BasicResponse
 import com.nepplus.finalproject_ljh.datas.PlaceData
+import com.odsay.odsayandroidsdk.API
+import com.odsay.odsayandroidsdk.ODsayData
+import com.odsay.odsayandroidsdk.ODsayService
+import com.odsay.odsayandroidsdk.OnResultCallbackListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -236,11 +240,28 @@ class EditAppoinmentActivity : BaseActivity() {
 
         val points = ArrayList<LatLng>()
         points.add(LatLng(mSelectedStartPlace.latitude, mSelectedStartPlace.longitude))
-        points.add(LatLng(mSelectedLat, mSelectedLng))
 
-        //val polyline = PolylineOverlay()
-        mPath.coords = points
-        mPath.map = naverMap
+        val odsay = ODsayService.init(mContext, "dh5CD8SqiwYKb95ygeXedLrrP9TkQ1MKp6qHe+tHc88")
+        odsay.requestSearchPubTransPath(mSelectedStartPlace.longitude.toString(), mSelectedStartPlace.latitude.toString(),
+            mSelectedLng.toString(), mSelectedLat.toString(),
+            null, null, null, object : OnResultCallbackListener {
+                override fun onSuccess(p0: ODsayData?, p1: API?) {
+
+
+
+                    points.add(LatLng(mSelectedLat, mSelectedLng))
+
+                    mPath.coords = points
+                    mPath.map = naverMap
+                }
+
+                override fun onError(p0: Int, p1: String?, p2: API?) {
+
+                }
+            })
+
+
+
 
     }
 
