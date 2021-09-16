@@ -28,6 +28,8 @@ class MySettingActivity : BaseActivity() {
 
     lateinit var binding: ActivityMySettingBinding
 
+    val REQ_FOR_GALLERY = 1000
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_my_setting)
@@ -42,6 +44,11 @@ class MySettingActivity : BaseActivity() {
             
             val permissionListener = object : PermissionListener {
                 override fun onPermissionGranted() {
+
+                    val myIntent = Intent()
+                    myIntent.type = "image/*"
+                    myIntent.action = Intent.ACTION_GET_CONTENT
+                    startActivityForResult(Intent.createChooser(myIntent, "프로필 사진 선택"), REQ_FOR_GALLERY)
 
                 }
 
