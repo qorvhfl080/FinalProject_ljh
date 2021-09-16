@@ -13,6 +13,7 @@ import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.PathOverlay
 import com.nepplus.finalproject_ljh.databinding.ActivityViewMapBinding
 import com.nepplus.finalproject_ljh.datas.AppointmentData
 import com.odsay.odsayandroidsdk.API
@@ -58,12 +59,17 @@ class ViewMapActivity : BaseActivity() {
 
             marker.position = appointmentLatLng
             marker.map = it
+
+            val startMarker = Marker()
+            startMarker.position = LatLng(mAppointmentData.startLatitude, mAppointmentData.startLongitude)
+            startMarker.map = it
+
             it.moveCamera(cameraUpdate)
 
             val infoWindow = InfoWindow()
 
             val myODsayService = ODsayService.init(mContext, "dh5CD8SqiwYKb95ygeXedLrrP9TkQ1MKp6qHe+tHc88")
-            myODsayService.requestSearchPubTransPath(127.24404177611704.toString(), 37.655017048675475.toString(),
+            myODsayService.requestSearchPubTransPath(mAppointmentData.startLongitude.toString(), mAppointmentData.startLatitude.toString(),
                 mAppointmentData.longitude.toString(), mAppointmentData.latitude.toString(), null, null, null, object :
                     OnResultCallbackListener {
                     override fun onSuccess(p0: ODsayData?, p1: API?) {
@@ -72,6 +78,34 @@ class ViewMapActivity : BaseActivity() {
                         val pathArr = resultObj.getJSONArray("path")
 
                         val firstPath = pathArr.getJSONObject(0)
+
+                        var points = ArrayList<LatLng>()
+                        points.add(LatLng(mAppointmentData.startLatitude, mAppointmentData.startLongitude))
+
+                        val subPathArr = firstPath.getJSONArray("subPath")
+
+                        for (i in 0 until subPathArr.length()) {
+                            val subPathObj = subPathArr.getJSONObject(i)
+                            if (!subPathObj.isNull("passStopList")) {
+
+                                val passStopListObj = subPathObj.getJSONObject("passStopList")
+                                val stationArr = passStopListObj.getJSONArray("stations")
+                                for (j in 0 until stationArr.length()) {
+                                    val stationObj = stationArr.getJSONObject(j)
+
+                                    val latlng = LatLng(stationObj.getString("y").toDouble(), stationObj.getString("x").toDouble())
+
+                                    points.add(latlng)
+                                }
+                            }
+                        }
+
+                        points.add(LatLng(mAppointmentData.latitude, mAppointmentData.longitude))
+
+                        val path = PathOverlay()
+                        path.coords = points
+                        path.map = it
+
                         val infoObj = firstPath.getJSONObject("info")
 
                         val totalTime = infoObj.getInt("totalTime")

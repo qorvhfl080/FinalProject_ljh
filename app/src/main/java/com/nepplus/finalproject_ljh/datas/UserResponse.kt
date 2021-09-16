@@ -8,6 +8,8 @@ class UserResponse(var id: Int,
                    @SerializedName("nick_name")
                    var nickname: String,
                    var email: String,
+                   @SerializedName("profile_img")
+                   var profileImgURL: String,
                    @SerializedName("ready_minute")
                    var readyMinute: Int) : Serializable {
 

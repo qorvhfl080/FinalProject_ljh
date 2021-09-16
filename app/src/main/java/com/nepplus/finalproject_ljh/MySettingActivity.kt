@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.Glide
 import com.nepplus.finalproject_ljh.databinding.ActivityMySettingBinding
 import com.nepplus.finalproject_ljh.datas.BasicResponse
 import com.nepplus.finalproject_ljh.utils.GlobalData
@@ -134,6 +135,10 @@ class MySettingActivity : BaseActivity() {
             "default" -> binding.passwordLayout.visibility = View.VISIBLE
             else -> binding.passwordLayout.visibility = View.GONE
         }
+
+        Glide.with(mContext)
+            .load(GlobalData.loginUser!!.profileImgURL)
+            .into(binding.profileImg)
 
     }
 

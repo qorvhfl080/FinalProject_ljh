@@ -22,7 +22,7 @@ class MainActivity : BaseActivity() {
 
     lateinit var binding: ActivityMainBinding
 
-    lateinit var mAppointmentAdapter: AppointmentAdapter
+    //lateinit var mAppointmentAdapter: AppointmentAdapter
     lateinit var mRecyclerAdapter: AppointmentRecyclerAdapter
 
     val mAppointmentList = ArrayList<AppointmentData>()
