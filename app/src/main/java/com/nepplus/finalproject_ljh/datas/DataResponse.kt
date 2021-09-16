@@ -7,7 +7,8 @@ class DataResponse(var token: String,
                    var user: UserResponse,
                    var appointments: List<AppointmentData>,
                    var places: List<PlaceData>,
-                   var friends: List<UserResponse>) : Serializable {
+                   var friends: List<UserResponse>,
+                   var users: List<UserResponse>) : Serializable {
 
 
 
