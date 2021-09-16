@@ -1,7 +1,9 @@
 package com.nepplus.finalproject_ljh
 
+import android.Manifest
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +14,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 import com.nepplus.finalproject_ljh.databinding.ActivityMySettingBinding
 import com.nepplus.finalproject_ljh.datas.BasicResponse
 import com.nepplus.finalproject_ljh.utils.GlobalData
@@ -33,6 +37,26 @@ class MySettingActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        binding.profileImg.setOnClickListener {
+            
+            val permissionListener = object : PermissionListener {
+                override fun onPermissionGranted() {
+
+                }
+
+                override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                    Toast.makeText(mContext, "권한 없음", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            TedPermission.create()
+                .setPermissionListener(permissionListener)
+                .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .setDeniedMessage("설정 -> 권한에서 갤러리 권한을 열어주세요")
+                .check()
+
+        }
 
         binding.myPlacesLayout.setOnClickListener {
             startActivity(Intent(mContext, ViewMyPlaceListActivity::class.java))
