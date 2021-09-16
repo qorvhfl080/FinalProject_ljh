@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.nepplus.finalproject_ljh.R
 import com.nepplus.finalproject_ljh.databinding.FragmentMyFriendsListBinding
 
-class MyFriendsListFragment : Fragment() {
+class MyFriendsListFragment : BaseFragment() {
 
     lateinit var binding: FragmentMyFriendsListBinding
 
@@ -25,8 +25,16 @@ class MyFriendsListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
+        setupEvents()
+        setValues()
 
     }
 
+    override fun setupEvents() {
+
+    }
+
+    override fun setValues() {
+
+    }
 }
