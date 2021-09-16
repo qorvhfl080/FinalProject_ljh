@@ -19,7 +19,7 @@ class MyFriendsRecyclerAdapter(val mContext: Context, val mList: List<UserRespon
 
     override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
 
-        holder.bind()
+        //holder.bind()
 
     }
 
