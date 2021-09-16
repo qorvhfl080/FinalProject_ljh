@@ -11,8 +11,15 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.nepplus.finalproject_ljh.AddFriendActivity
 import com.nepplus.finalproject_ljh.R
+import com.nepplus.finalproject_ljh.datas.BasicResponse
 import com.nepplus.finalproject_ljh.datas.UserResponse
+import com.nepplus.finalproject_ljh.web.ServerAPI
+import com.nepplus.finalproject_ljh.web.ServerAPIService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SearchUserRecyclerAdapter(val mContext: Context, val mList: List<UserResponse>) : RecyclerView.Adapter<SearchUserRecyclerAdapter.UserViewHolder>() {
 
@@ -39,6 +46,7 @@ class SearchUserRecyclerAdapter(val mContext: Context, val mList: List<UserRespo
         val addFriendBtn = view.findViewById<Button>(R.id.addFriendBtn)
 
         fun bind(context: Context, data: UserResponse) {
+
             Glide.with(context)
                 .load(data.profileImgURL)
                 .into(profileImg)
@@ -59,6 +67,21 @@ class SearchUserRecyclerAdapter(val mContext: Context, val mList: List<UserRespo
                 val alert = AlertDialog.Builder(context)
                 alert.setMessage("${data.nickname}님을 친구로 추가하겠습니까?")
                 alert.setPositiveButton("확인", DialogInterface.OnClickListener { dialogInterface, i ->
+
+                    (context as AddFriendActivity).apiService.postRequestAddFriend(data.id).enqueue(object : Callback<BasicResponse> {
+                        override fun onResponse(
+                            call: Call<BasicResponse>,
+                            response: Response<BasicResponse>
+                        ) {
+                            if (response.isSuccessful) {
+                                val basicResponse = response.body()!!
+                            }
+                        }
+
+                        override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                        }
+                    })
 
                 })
                 alert.setNegativeButton("취소", null)
