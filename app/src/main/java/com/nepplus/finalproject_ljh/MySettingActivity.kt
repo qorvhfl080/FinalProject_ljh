@@ -19,6 +19,7 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.nepplus.finalproject_ljh.databinding.ActivityMySettingBinding
 import com.nepplus.finalproject_ljh.datas.BasicResponse
+import com.nepplus.finalproject_ljh.utils.ContextUtil
 import com.nepplus.finalproject_ljh.utils.GlobalData
 import com.nepplus.finalproject_ljh.utils.URIPathHelper
 import okhttp3.MediaType
@@ -45,6 +46,27 @@ class MySettingActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        binding.logoutLayout.setOnClickListener {
+
+            val alert = AlertDialog.Builder(mContext)
+            alert.setMessage("정말 로그아웃 하시겠습니까?")
+            alert.setNegativeButton("취소", null)
+            alert.setPositiveButton("확인", object : DialogInterface.OnClickListener {
+                override fun onClick(p0: DialogInterface?, p1: Int) {
+                    ContextUtil.setToken(mContext, "")
+                    GlobalData.loginUser = null
+
+                    val myIntent = Intent(mContext, SplashActivity::class.java)
+                    myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(myIntent)
+                }
+            })
+            alert.show()
+
+
+
+        }
 
         binding.profileImg.setOnClickListener {
             
@@ -206,7 +228,7 @@ class MySettingActivity : BaseActivity() {
                     }
                 })
 
-                Glide.with(mContext).load(dataUri).into(binding.profileImg)
+                //Glide.with(mContext).load(dataUri).into(binding.profileImg)
 
             }
 
