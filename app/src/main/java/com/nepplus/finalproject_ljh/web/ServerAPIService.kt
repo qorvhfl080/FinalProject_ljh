@@ -61,4 +61,7 @@ interface ServerAPIService {
     @PUT("/user/image")
     fun putRequestProfileImg(@Part profileImg: MultipartBody.Part): Call<BasicResponse>
 
+    @GET("/user/friend")
+    fun getRequestFriendList(@Query("type")type: String): Call<BasicResponse>
+
 }
