@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.nepplus.finalproject_ljh.R
 import com.nepplus.finalproject_ljh.datas.UserResponse
 
@@ -19,7 +20,9 @@ class MyFriendsRecyclerAdapter(val mContext: Context, val mList: List<UserRespon
 
     override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
 
-        //holder.bind()
+        val data = mList[position]
+
+        holder.bind(mContext, data)
 
     }
 
@@ -32,6 +35,26 @@ class MyFriendsRecyclerAdapter(val mContext: Context, val mList: List<UserRespon
         val socialLoginImg = view.findViewById<ImageView>(R.id.socialLoginImg)
 
         fun bind(context: Context, data: UserResponse) {
+
+            nicknameTxt.text = data.nickname
+
+            Glide.with(context)
+                .load(data.profileImgURL)
+                .into(friendProfileImg)
+
+            when (data.provider) {
+                "facebook" -> {
+                    socialLoginImg.setImageResource(R.drawable.facebook_login)
+                    socialLoginImg.visibility = View.VISIBLE
+                }
+                "kakao" -> {
+                    socialLoginImg.setImageResource(R.drawable.kakao_login)
+                    socialLoginImg.visibility = View.VISIBLE
+                }
+                else -> {
+                    socialLoginImg.visibility = View.GONE
+                }
+            }
 
         }
 
