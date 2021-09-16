@@ -20,10 +20,15 @@ import com.gun0912.tedpermission.normal.TedPermission
 import com.nepplus.finalproject_ljh.databinding.ActivityMySettingBinding
 import com.nepplus.finalproject_ljh.datas.BasicResponse
 import com.nepplus.finalproject_ljh.utils.GlobalData
+import com.nepplus.finalproject_ljh.utils.URIPathHelper
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 
 class MySettingActivity : BaseActivity() {
 
@@ -182,6 +187,24 @@ class MySettingActivity : BaseActivity() {
             if (resultCode == RESULT_OK) {
 
                 val dataUri = data?.data
+
+                val file = File(URIPathHelper().getPath(mContext, dataUri!!))
+
+                val fileReqBody = RequestBody.create(MediaType.get("image/*"), file)
+                val body = MultipartBody.Part.createFormData("profile_image", "myFile.jpg", fileReqBody)
+
+                apiService.putRequestProfileImg(body).enqueue(object : Callback<BasicResponse> {
+                    override fun onResponse(
+                        call: Call<BasicResponse>,
+                        response: Response<BasicResponse>
+                    ) {
+
+                    }
+
+                    override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                    }
+                })
 
                 Glide.with(mContext).load(dataUri).into(binding.profileImg)
 
