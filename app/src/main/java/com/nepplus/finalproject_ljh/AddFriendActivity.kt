@@ -2,8 +2,11 @@ package com.nepplus.finalproject_ljh
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.nepplus.finalproject_ljh.adapters.SearchUserRecyclerAdapter
 import com.nepplus.finalproject_ljh.databinding.ActivityAddFriendBinding
 import com.nepplus.finalproject_ljh.datas.BasicResponse
 import com.nepplus.finalproject_ljh.datas.UserResponse
@@ -16,6 +19,8 @@ class AddFriendActivity : BaseActivity() {
     lateinit var binding: ActivityAddFriendBinding
 
     val mSearchUserList = ArrayList<UserResponse>()
+
+    lateinit var mSearchedUserAdapter: SearchUserRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +51,7 @@ class AddFriendActivity : BaseActivity() {
 
                         mSearchUserList.clear()
                         mSearchUserList.addAll(basicResponse.data.users)
+                        mSearchedUserAdapter.notifyDataSetChanged()
 
                     }
                 }
@@ -60,6 +66,10 @@ class AddFriendActivity : BaseActivity() {
     }
 
     override fun setValues() {
+
+        mSearchedUserAdapter = SearchUserRecyclerAdapter(mContext, mSearchUserList)
+        binding.searchUserRecyclerView.layoutManager = LinearLayoutManager(mContext)
+        binding.searchUserRecyclerView.adapter = mSearchedUserAdapter
 
     }
 }
