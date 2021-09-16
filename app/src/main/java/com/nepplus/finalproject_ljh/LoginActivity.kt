@@ -231,6 +231,9 @@ class LoginActivity : BaseActivity() {
 
     override fun setValues() {
 
+        titleTxt.visibility = View.GONE
+        companyLogIng.visibility = View.VISIBLE
+
 //        키 해시값 추출
         val info = packageManager.getPackageInfo("com.nepplus.finalproject_ljh",
             PackageManager.GET_SIGNATURES)
