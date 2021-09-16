@@ -2,6 +2,7 @@ package com.nepplus.finalproject_ljh.web
 
 import com.nepplus.finalproject_ljh.datas.AppointmentData
 import com.nepplus.finalproject_ljh.datas.BasicResponse
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -55,5 +56,9 @@ interface ServerAPIService {
 
     @GET("/user/place")
     fun getRequestMyPlaceList(): Call<BasicResponse>
+
+    @Multipart
+    @PUT("/user/image")
+    fun putRequestProfileImg(@Part profileImg: MultipartBody.Part): Call<BasicResponse>
 
 }

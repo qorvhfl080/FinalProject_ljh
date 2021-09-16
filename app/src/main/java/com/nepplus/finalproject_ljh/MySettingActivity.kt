@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
@@ -170,6 +171,23 @@ class MySettingActivity : BaseActivity() {
         Glide.with(mContext)
             .load(GlobalData.loginUser!!.profileImgURL)
             .into(binding.profileImg)
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == REQ_FOR_GALLERY) {
+
+            if (resultCode == RESULT_OK) {
+
+                val dataUri = data?.data
+
+                Glide.with(mContext).load(dataUri).into(binding.profileImg)
+
+            }
+
+        }
 
     }
 
