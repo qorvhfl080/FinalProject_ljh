@@ -1,5 +1,6 @@
 package com.nepplus.finalproject_ljh
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.util.MarkerIcons
 import com.nepplus.finalproject_ljh.databinding.ActivityViewAppointmentDetailBinding
 import com.nepplus.finalproject_ljh.datas.AppointmentData
 import java.text.SimpleDateFormat
@@ -75,13 +77,22 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
         mapFragment.getMapAsync {
             val naverMap = it
+
             val marker = Marker()
             val dest = LatLng(mAppointmentData.latitude, mAppointmentData.longitude)
+            marker.icon = MarkerIcons.BLACK
+            marker.iconTintColor = Color.RED
             marker.position = dest
             marker.map = naverMap
 
             val cameraUpdate = CameraUpdate.scrollTo(dest)
             naverMap.moveCamera(cameraUpdate)
+
+            val startLatLng = LatLng(mAppointmentData.startLatitude, mAppointmentData.startLongitude)
+
+            val startMarker = Marker()
+            startMarker.position = startLatLng
+            startMarker.map = naverMap
 
         }
 
