@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.naver.maps.geometry.LatLng
@@ -70,6 +71,17 @@ class EditAppoinmentActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        binding.addFriendToListBtn.setOnClickListener {
+
+            val selectedFriend = mMyFriendsList[binding.myFriendsSpinner.selectedItemPosition]
+
+            val textView = TextView(mContext)
+            textView.text = selectedFriend.nickname
+
+            binding.friendListLayout.addView(textView)
+
+        }
 
         binding.scrollHelpTxt.setOnTouchListener { view, motionEvent ->
 
