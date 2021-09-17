@@ -22,7 +22,9 @@ class AppointmentData(var id: Int,
                       var longitude: Double,
                       @SerializedName("created_at")
                       var createdAt: String,
-                      var user: UserResponse) : Serializable {
+                      var user: UserResponse,
+                      @SerializedName("invited_friends")
+                      var invitedFriendList: List<UserResponse>) : Serializable {
 
     fun getFormattedDateTime(): String {
 
