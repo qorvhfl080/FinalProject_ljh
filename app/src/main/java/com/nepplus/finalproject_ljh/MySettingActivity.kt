@@ -81,9 +81,9 @@ class MySettingActivity : BaseActivity() {
                 override fun onPermissionGranted() {
 
                     val myIntent = Intent()
-                    myIntent.type = "image/*"
-                    myIntent.action = Intent.ACTION_GET_CONTENT
-                    startActivityForResult(Intent.createChooser(myIntent, "프로필 사진 선택"), REQ_FOR_GALLERY)
+                    myIntent.action = Intent.ACTION_PICK
+                    myIntent.type = android.provider.MediaStore.Images.Media.CONTENT_TYPE
+                    startActivityForResult(myIntent, REQ_FOR_GALLERY)
 
                 }
 
@@ -227,7 +227,10 @@ class MySettingActivity : BaseActivity() {
                         call: Call<BasicResponse>,
                         response: Response<BasicResponse>
                     ) {
-
+                        if (response.isSuccessful) {
+                            Glide.with(mContext).load(dataUri).into(binding.profileImg)
+                            Toast.makeText(mContext, "프로필 사진 변경 완료", Toast.LENGTH_SHORT).show()
+                        }
                     }
 
                     override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
@@ -235,7 +238,7 @@ class MySettingActivity : BaseActivity() {
                     }
                 })
 
-                //Glide.with(mContext).load(dataUri).into(binding.profileImg)
+
 
             }
 

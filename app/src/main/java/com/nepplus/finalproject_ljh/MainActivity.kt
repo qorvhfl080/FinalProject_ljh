@@ -77,13 +77,15 @@ class MainActivity : BaseActivity() {
         apiService.getRequestAppointmentList().enqueue(object : Callback<BasicResponse> {
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
-                val basicResponse = response.body()!!
+                if (response.isSuccessful) {
+                    val basicResponse = response.body()!!
 
-                mAppointmentList.clear()
+                    mAppointmentList.clear()
 
-                mAppointmentList.addAll(basicResponse.data.appointments)
+                    mAppointmentList.addAll(basicResponse.data.appointments)
 
-                mRecyclerAdapter.notifyDataSetChanged()
+                    mRecyclerAdapter.notifyDataSetChanged()
+                }
 
             }
 

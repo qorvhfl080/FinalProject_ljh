@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.viewpager.widget.ViewPager
 import com.nepplus.finalproject_ljh.adapters.FriendPagerAdapter
 import com.nepplus.finalproject_ljh.databinding.ActivityViewMyFriendsListBinding
 
@@ -23,6 +24,24 @@ class ViewMyFriendsListActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        binding.friendsViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+
+            }
+
+            override fun onPageSelected(position: Int) {
+
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+        })
 
         addBtn.setOnClickListener {
 
