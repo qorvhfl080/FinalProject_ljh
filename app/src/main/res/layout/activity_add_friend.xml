@@ -20,7 +20,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="검색할 친구의 닉넴임 2자 이상 입력"/>
+                android:hint="검색할 친구의 닉네임 2자 이상 입력"/>
 
             <Button
                 android:id="@+id/searchBtn"
