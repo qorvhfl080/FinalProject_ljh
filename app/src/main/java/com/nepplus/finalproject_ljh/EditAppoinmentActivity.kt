@@ -90,7 +90,7 @@ class EditAppoinmentActivity : BaseActivity() {
             textView.setBackgroundResource(R.drawable.selected_friend_box)
             textView.text = selectedFriend.nickname
             textView.setPadding(SizeUtil.dpToPx(mContext, 5f).toInt())
-            textView.marginRight = 1
+            //textView.marginRight = 1
             textView.setOnClickListener {
                 binding.friendListLayout.removeView(it)
                 mSelectedFriendList.remove(selectedFriend)
