@@ -12,6 +12,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.PathOverlay
 import com.naver.maps.map.util.MarkerIcons
 import com.nepplus.finalproject_ljh.databinding.ActivityViewAppointmentDetailBinding
 import com.nepplus.finalproject_ljh.datas.AppointmentData
@@ -94,6 +95,15 @@ class ViewAppointmentDetailActivity : BaseActivity() {
             startMarker.position = startLatLng
             startMarker.map = naverMap
 
+            val path = PathOverlay()
+
+            val points = ArrayList<LatLng>()
+            points.add(startLatLng)
+
+            points.add(dest)
+
+            path.coords = points
+            path.map = naverMap
         }
 
     }
