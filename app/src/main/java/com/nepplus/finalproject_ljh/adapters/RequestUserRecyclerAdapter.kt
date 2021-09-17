@@ -2,6 +2,7 @@ package com.nepplus.finalproject_ljh.adapters
 
 import android.content.Context
 import android.content.DialogInterface
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +49,43 @@ class RequestUserRecyclerAdapter(val mContext: Context, val mList: List<UserResp
 
         fun bind(context: Context, data: UserResponse) {
 
+            Glide.with(context).load(data.profileImgURL).into(profileImg)
+            nicknameTxt.text = data.nickname
+            when (data.provider) {
+                "facebook" -> {
+                    socialLoginImg.setImageResource(R.drawable.facebook_login)
+                    socialLoginImg.visibility = View.VISIBLE
+                }
+                "kakao" -> {
+                    socialLoginImg.setImageResource(R.drawable.kakao_login)
+                    socialLoginImg.visibility = View.VISIBLE
+                } else -> socialLoginImg.visibility = View.GONE
+            }
 
+            val sendOkOrNoToServer = object : View.OnClickListener {
+                override fun onClick(p0: View?) {
+
+                    val okOrNo = p0!!.tag.toString()
+
+                    val retrofit = ServerAPI.getRetrofit(context)
+                    val apiService = retrofit.create(ServerAPIService::class.java)
+                    apiService.putRequestSendOkOrNoFriend(data.id, okOrNo).enqueue(object : Callback<BasicResponse> {
+                        override fun onResponse(
+                            call: Call<BasicResponse>,
+                            response: Response<BasicResponse>
+                        ) {
+
+                        }
+
+                        override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                        }
+                    })
+
+                }
+            }
+            acceptBtn.setOnClickListener(sendOkOrNoToServer)
+            refuseBtn.setOnClickListener(sendOkOrNoToServer)
 
         }
 
