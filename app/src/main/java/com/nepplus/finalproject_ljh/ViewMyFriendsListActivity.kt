@@ -8,6 +8,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
 import com.nepplus.finalproject_ljh.adapters.FriendPagerAdapter
 import com.nepplus.finalproject_ljh.databinding.ActivityViewMyFriendsListBinding
+import com.nepplus.finalproject_ljh.fragments.MyFriendsListFragment
+import com.nepplus.finalproject_ljh.fragments.RequestedUserListFragment
 
 class ViewMyFriendsListActivity : BaseActivity() {
 
@@ -35,6 +37,15 @@ class ViewMyFriendsListActivity : BaseActivity() {
             }
 
             override fun onPageSelected(position: Int) {
+
+                when (position) {
+                    0 -> {
+                        (mFPA.getItem(position) as MyFriendsListFragment).getMyFriendsListFromServer()
+                    }
+                    else -> {
+                        (mFPA.getItem(position) as RequestedUserListFragment).getRequestUserListFromServer()
+                    }
+                }
 
             }
 
