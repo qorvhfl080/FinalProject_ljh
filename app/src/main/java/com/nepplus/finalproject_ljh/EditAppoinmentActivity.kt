@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.setPadding
 import androidx.databinding.DataBindingUtil
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
@@ -24,6 +25,7 @@ import com.nepplus.finalproject_ljh.databinding.ActivityEditAppoinmentBinding
 import com.nepplus.finalproject_ljh.datas.BasicResponse
 import com.nepplus.finalproject_ljh.datas.PlaceData
 import com.nepplus.finalproject_ljh.datas.UserResponse
+import com.nepplus.finalproject_ljh.utils.SizeUtil
 import com.odsay.odsayandroidsdk.API
 import com.odsay.odsayandroidsdk.ODsayData
 import com.odsay.odsayandroidsdk.ODsayService
@@ -86,6 +88,7 @@ class EditAppoinmentActivity : BaseActivity() {
             val textView = TextView(mContext)
             textView.setBackgroundResource(R.drawable.selected_friend_box)
             textView.text = selectedFriend.nickname
+            textView.setPadding(SizeUtil.dpToPx(mContext, 5f).toInt())
             textView.setOnClickListener {
                 binding.friendListLayout.removeView(it)
                 mSelectedFriendList.remove(selectedFriend)
