@@ -2,6 +2,9 @@ package com.nepplus.finalproject_ljh
 
 import android.Manifest
 import android.graphics.Color
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,12 +12,14 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.getSystemService
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.LocationSource
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
@@ -51,6 +56,32 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
             val pl = object : PermissionListener {
                 override fun onPermissionGranted() {
+
+                    val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+
+                    val ll = object : LocationListener {
+                        override fun onLocationChanged(p0: Location) {
+
+                        }
+                    }
+
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, object : LocationListener {
+                        override fun onLocationChanged(p0: Location) {
+
+                        }
+
+                        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+
+                        }
+
+                        override fun onProviderEnabled(provider: String) {
+
+                        }
+
+                        override fun onProviderDisabled(provider: String) {
+
+                        }
+                    })
 
                 }
 
