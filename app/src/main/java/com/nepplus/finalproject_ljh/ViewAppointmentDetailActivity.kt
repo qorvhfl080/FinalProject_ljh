@@ -4,6 +4,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
@@ -11,11 +12,19 @@ import com.bumptech.glide.Glide
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
+import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.PathOverlay
 import com.naver.maps.map.util.MarkerIcons
 import com.nepplus.finalproject_ljh.databinding.ActivityViewAppointmentDetailBinding
 import com.nepplus.finalproject_ljh.datas.AppointmentData
+import com.odsay.odsayandroidsdk.API
+import com.odsay.odsayandroidsdk.ODsayData
+import com.odsay.odsayandroidsdk.ODsayService
+import com.odsay.odsayandroidsdk.OnResultCallbackListener
+import okhttp3.*
+import org.json.JSONObject
+import java.io.IOException
 import java.text.SimpleDateFormat
 
 class ViewAppointmentDetailActivity : BaseActivity() {
@@ -94,12 +103,6 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
             val path = PathOverlay()
 
-            val points = ArrayList<LatLng>()
-            points.add(startLatLng)
-
-            points.add(dest)
-
-            path.coords = points
             path.map = naverMap
 
             val centerOfStartAndDest = LatLng((mAppointmentData.startLatitude + mAppointmentData.latitude) / 2, (mAppointmentData.startLongitude + mAppointmentData.longitude))
@@ -108,6 +111,79 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
             val zoomLevel = 11.0
             naverMap.moveCamera(CameraUpdate.zoomTo(zoomLevel))
+
+            val infoWindow = InfoWindow()
+
+            val myODsayService = ODsayService.init(mContext, "dh5CD8SqiwYKb95ygeXedLrrP9TkQ1MKp6qHe+tHc88")
+            myODsayService.requestSearchPubTransPath(mAppointmentData.startLongitude.toString(), mAppointmentData.startLatitude.toString(),
+                mAppointmentData.longitude.toString(), mAppointmentData.latitude.toString(), null, null, null, object :
+                    OnResultCallbackListener {
+                    override fun onSuccess(p0: ODsayData?, p1: API?) {
+                        val jsonObj = p0!!.json
+                        val resultObj = jsonObj.getJSONObject("result")
+                        val pathArr = resultObj.getJSONArray("path")
+
+                        val firstPath = pathArr.getJSONObject(0)
+
+                        val points = ArrayList<LatLng>()
+                        points.add(LatLng(mAppointmentData.startLatitude, mAppointmentData.startLongitude))
+
+                        val subPathArr = firstPath.getJSONArray("subPath")
+
+                        for (i in 0 until subPathArr.length()) {
+                            val subPathObj = subPathArr.getJSONObject(i)
+                            if (!subPathObj.isNull("passStopList")) {
+
+                                val passStopListObj = subPathObj.getJSONObject("passStopList")
+                                val stationArr = passStopListObj.getJSONArray("stations")
+                                for (j in 0 until stationArr.length()) {
+                                    val stationObj = stationArr.getJSONObject(j)
+
+                                    val latlng = LatLng(stationObj.getString("y").toDouble(), stationObj.getString("x").toDouble())
+
+                                    points.add(latlng)
+                                }
+                            }
+                        }
+
+                        points.add(LatLng(mAppointmentData.latitude, mAppointmentData.longitude))
+
+                        val path = PathOverlay()
+                        path.coords = points
+                        path.map = naverMap
+
+                        val infoObj = firstPath.getJSONObject("info")
+
+                        val totalTime = infoObj.getInt("totalTime")
+
+                        val hour = totalTime / 60
+                        val minute = totalTime % 60
+
+                        infoWindow.adapter = object : InfoWindow.DefaultViewAdapter(mContext) {
+                            override fun getContentView(p0: InfoWindow): View {
+                                val myView = LayoutInflater.from(mContext).inflate(R.layout.my_custom_info_window, null)
+
+                                val placeName = myView.findViewById<TextView>(R.id.placeNameTxt)
+                                val arrivalTime = myView.findViewById<TextView>(R.id.arrivalTimeTxt)
+
+                                placeName.text = mAppointmentData.placeName
+
+                                if (hour == 0) {
+                                    arrivalTime.text = "${minute}분 소요 예정"
+                                } else {
+                                    arrivalTime.text = "${hour}시간 ${minute}분 소요 예정"
+                                }
+
+                                return myView
+                            }
+                        }
+                        infoWindow.open(marker)
+
+                    }
+                    override fun onError(p0: Int, p1: String?, p2: API?) {
+
+                    }
+                })
 
         }
 
