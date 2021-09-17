@@ -86,9 +86,6 @@ class ViewAppointmentDetailActivity : BaseActivity() {
             marker.position = dest
             marker.map = naverMap
 
-            val cameraUpdate = CameraUpdate.scrollTo(dest)
-            naverMap.moveCamera(cameraUpdate)
-
             val startLatLng = LatLng(mAppointmentData.startLatitude, mAppointmentData.startLongitude)
 
             val startMarker = Marker()
@@ -104,6 +101,14 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
             path.coords = points
             path.map = naverMap
+
+            val centerOfStartAndDest = LatLng((mAppointmentData.startLatitude + mAppointmentData.latitude) / 2, (mAppointmentData.startLongitude + mAppointmentData.longitude))
+            val cameraUpdate = CameraUpdate.scrollTo(centerOfStartAndDest)
+            naverMap.moveCamera(cameraUpdate)
+
+            val zoomLevel = 11.0
+            naverMap.moveCamera(CameraUpdate.zoomTo(zoomLevel))
+
         }
 
     }
