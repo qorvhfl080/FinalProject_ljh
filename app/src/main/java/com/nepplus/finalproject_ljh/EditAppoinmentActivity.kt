@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.naver.maps.geometry.LatLng
@@ -16,10 +17,12 @@ import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.overlay.PathOverlay
+import com.nepplus.colosseum.adapters.MyFriendSpinnerAdapter
 import com.nepplus.colosseum.adapters.StartPlaceSpinnerAdapter
 import com.nepplus.finalproject_ljh.databinding.ActivityEditAppoinmentBinding
 import com.nepplus.finalproject_ljh.datas.BasicResponse
 import com.nepplus.finalproject_ljh.datas.PlaceData
+import com.nepplus.finalproject_ljh.datas.UserResponse
 import com.odsay.odsayandroidsdk.API
 import com.odsay.odsayandroidsdk.ODsayData
 import com.odsay.odsayandroidsdk.ODsayService
@@ -39,6 +42,9 @@ class EditAppoinmentActivity : BaseActivity() {
 
     var mSelectedLat = 0.0
     var mSelectedLng = 0.0
+
+    val mMyFriendsList = ArrayList<UserResponse>()
+    lateinit var mFriendSpinnerAdapter: MyFriendSpinnerAdapter
 
     val mStartPlaceList = ArrayList<PlaceData>()
     lateinit var mSpinnerAdapter: StartPlaceSpinnerAdapter
@@ -178,6 +184,23 @@ class EditAppoinmentActivity : BaseActivity() {
     override fun setValues() {
 
         titleTxt.text = "약속 잡기"
+
+        mFriendSpinnerAdapter = MyFriendSpinnerAdapter(mContext, R.layout.friend_list_item, mMyFriendsList)
+        binding.myFriendsSpinner.adapter = mFriendSpinnerAdapter
+
+        apiService.getRequestFriendList("my").enqueue(object : Callback<BasicResponse> {
+            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
+                if (response.isSuccessful) {
+                    mMyFriendsList.clear()
+                    mMyFriendsList.addAll(response.body()!!.data.friends)
+                    mFriendSpinnerAdapter.notifyDataSetChanged()
+                }
+            }
+
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+            }
+        })
 
         mSpinnerAdapter = StartPlaceSpinnerAdapter(mContext, R.layout.my_place_list_item, mStartPlaceList)
         binding.startPlaceSpinner.adapter = mSpinnerAdapter
