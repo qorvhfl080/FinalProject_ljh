@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.nepplus.finalproject_ljh.AddFriendActivity
 import com.nepplus.finalproject_ljh.R
+import com.nepplus.finalproject_ljh.ViewMyFriendsListActivity
 import com.nepplus.finalproject_ljh.datas.BasicResponse
 import com.nepplus.finalproject_ljh.datas.UserResponse
+import com.nepplus.finalproject_ljh.fragments.RequestedUserListFragment
 import com.nepplus.finalproject_ljh.web.ServerAPI
 import com.nepplus.finalproject_ljh.web.ServerAPIService
 import retrofit2.Call
@@ -74,7 +76,8 @@ class RequestUserRecyclerAdapter(val mContext: Context, val mList: List<UserResp
                             call: Call<BasicResponse>,
                             response: Response<BasicResponse>
                         ) {
-
+                            ((context as ViewMyFriendsListActivity).mFPA.getItem(1) as RequestedUserListFragment)
+                                .getRequestUserListFromServer()
                         }
 
                         override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
