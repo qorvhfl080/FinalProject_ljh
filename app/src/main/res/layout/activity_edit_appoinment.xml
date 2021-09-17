@@ -104,25 +104,13 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <com.nex3z.flowlayout.FlowLayout
                     android:id="@+id/friendListLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="이름1"
-                        android:layout_marginRight="5dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="이름2"
-                        android:layout_marginRight="5dp"/>
-
-                </LinearLayout>
+                </com.nex3z.flowlayout.FlowLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
