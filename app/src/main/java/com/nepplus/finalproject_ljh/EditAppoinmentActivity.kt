@@ -84,8 +84,13 @@ class EditAppoinmentActivity : BaseActivity() {
             }
 
             val textView = TextView(mContext)
+            textView.setBackgroundResource(R.drawable.selected_friend_box)
             textView.text = selectedFriend.nickname
-
+            textView.setOnClickListener {
+                binding.friendListLayout.removeView(it)
+                mSelectedFriendList.remove(selectedFriend)
+            }
+            
             binding.friendListLayout.addView(textView)
 
             mSelectedFriendList.add(selectedFriend)
