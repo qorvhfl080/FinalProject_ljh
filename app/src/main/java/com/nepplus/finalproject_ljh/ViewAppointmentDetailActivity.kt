@@ -2,7 +2,11 @@ package com.nepplus.finalproject_ljh
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.Glide
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
@@ -42,6 +46,22 @@ class ViewAppointmentDetailActivity : BaseActivity() {
         binding.titleTxt.text = sdf.format(mAppointmentData.datetime)
 
         setNaverMap()
+
+        val inflater = LayoutInflater.from(mContext)
+        for (friend in mAppointmentData.invitedFriendList) {
+
+            val friendView = inflater.inflate(R.layout.invited_friends_list_item, null)
+
+            val friendProfileImg = friendView.findViewById<ImageView>(R.id.friendProfileImg)
+            val nicknameTxt = friendView.findViewById<TextView>(R.id.nicknameTxt)
+            val statusTxt = friendView.findViewById<TextView>(R.id.statusTxt)
+
+            Glide.with(mContext).load(friend.profileImgURL).into(friendProfileImg)
+            nicknameTxt.text = friend.nickname
+
+            binding.invitedFriendsLayout.addView(friendView)
+
+        }
 
     }
 
