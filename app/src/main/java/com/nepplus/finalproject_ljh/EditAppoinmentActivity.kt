@@ -176,11 +176,19 @@ class EditAppoinmentActivity : BaseActivity() {
                 return@setOnClickListener
             }
 
+            var friendListStr = ""
 
+            for (friend in mSelectedFriendList) {
+
+                friendListStr += friend.id
+                friendListStr += ","
+            }
+            if (friendListStr != "")
+                friendListStr = friendListStr.substring(0, friendListStr.lastIndex)
 
             apiService.postRequestAppointment(inputTitle, inputDate, mSelectedStartPlace.name,
                 mSelectedStartPlace.latitude, mSelectedStartPlace.longitude, inputPlaceName,
-                mSelectedLat, mSelectedLng)
+                mSelectedLat, mSelectedLng, friendListStr)
                 .enqueue(object : Callback<BasicResponse> {
                     override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
