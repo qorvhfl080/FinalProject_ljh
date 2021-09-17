@@ -7,6 +7,7 @@ import android.location.LocationListener
 import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -42,6 +43,8 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
     lateinit var mAppointmentData: AppointmentData
 
+    var needLocationSendServer = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_view_appointment_detail)
@@ -54,20 +57,22 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
         binding.arrivalBtn.setOnClickListener {
 
+            needLocationSendServer = true
+
             val pl = object : PermissionListener {
                 override fun onPermissionGranted() {
 
                     val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
 
-                    val ll = object : LocationListener {
-                        override fun onLocationChanged(p0: Location) {
-
-                        }
-                    }
-
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0L, 0f, object : LocationListener {
                         override fun onLocationChanged(p0: Location) {
 
+                            if (needLocationSendServer) {
+                                Log.d("location", p0.latitude.toString())
+                                Log.d("location", p0.longitude.toString())
+
+                                needLocationSendServer = false
+                            }
                         }
 
                         override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
