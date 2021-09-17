@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.nepplus.finalproject_ljh.R
 import com.nepplus.finalproject_ljh.ViewMapActivity
 import com.nepplus.finalproject_ljh.datas.AppointmentData
@@ -27,7 +28,7 @@ class MyFriendSpinnerAdapter(val mContext: Context, resId: Int, val mList: List<
 
         val data = mList[position]
 
-
+        //Glide.with(mContext).load(data.profileImgURL).into()
 
         return row
     }

@@ -52,6 +52,8 @@ class EditAppoinmentActivity : BaseActivity() {
 
     lateinit var mSelectedStartPlace: PlaceData
 
+    val mSelectedFriendList = ArrayList<UserResponse>()
+
     val mStartPlaceMarker = Marker()
 
     val mPath = PathOverlay()
@@ -76,10 +78,17 @@ class EditAppoinmentActivity : BaseActivity() {
 
             val selectedFriend = mMyFriendsList[binding.myFriendsSpinner.selectedItemPosition]
 
+            if (mSelectedFriendList.contains(selectedFriend)) {
+                Toast.makeText(mContext, "이미 추가한 친구입니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             val textView = TextView(mContext)
             textView.text = selectedFriend.nickname
 
             binding.friendListLayout.addView(textView)
+
+            mSelectedFriendList.add(selectedFriend)
 
         }
 
