@@ -25,15 +25,7 @@ class AppointmentRecyclerAdapter(val mContext: Context, val mList: List<Appointm
 
         val data = mList[position]
 
-        holder.bind(data)
-
-        holder.viewPlaceMapBtn.setOnClickListener {
-
-            val myIntent = Intent(mContext, ViewMapActivity::class.java)
-            myIntent.putExtra("appointment", data)
-            mContext.startActivity(myIntent)
-
-        }
+        holder.bind(mContext, data)
 
     }
 
@@ -48,11 +40,19 @@ class AppointmentRecyclerAdapter(val mContext: Context, val mList: List<Appointm
 
         val dateTimeSdf = SimpleDateFormat("M/d a h:mm")
 
-        fun bind(data: AppointmentData) {
+        fun bind(context: Context, data: AppointmentData) {
 
             titleTxt.text = data.title
             dateTimeTxt.text = dateTimeSdf.format(data.datetime)
             placeNameTxt.text = data.placeName
+
+            viewPlaceMapBtn.setOnClickListener {
+
+                val myIntent = Intent(context, ViewMapActivity::class.java)
+                myIntent.putExtra("appointment", data)
+                context.startActivity(myIntent)
+
+            }
 
         }
 
