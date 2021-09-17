@@ -23,5 +23,7 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
     override fun setValues() {
 
+        titleTxt.text = "약속 상세 확인"
+
     }
 }
