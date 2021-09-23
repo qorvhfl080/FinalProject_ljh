@@ -29,6 +29,8 @@ class SplashActivity : BaseActivity() {
 
     override fun setValues() {
 
+        GlobalData.context = mContext
+
         val myHandler = Handler(Looper.getMainLooper())
         myHandler.postDelayed({
 

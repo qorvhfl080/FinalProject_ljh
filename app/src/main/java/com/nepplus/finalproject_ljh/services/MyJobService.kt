@@ -64,7 +64,7 @@ class MyJobService : JobService() {
                                 val now = Calendar.getInstance()
                                 appointmentData.datetime.time += now.timeZone.rawOffset
                                 val alarmTime = appointmentData.datetime.time - totalTime*60*1000 - GlobalData.loginUser!!.readyMinute*60*1000
-                                setAlarmByMinute(alarmTime)
+                                setAlarmByMilliSecond(alarmTime)
 
                             }
 
@@ -83,14 +83,10 @@ class MyJobService : JobService() {
             }
         })
 
-
-        setAlarmByMinute()
-
-
         return false
     }
 
-    fun setAlarmByMinute(timeInMillis: Long) {
+    fun setAlarmByMilliSecond(timeInMillis: Long) {
 
         val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
 
