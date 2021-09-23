@@ -102,7 +102,8 @@ class ViewAppointmentDetailActivity : BaseActivity() {
                                     ) {
                                         if (response.isSuccessful) {
 
-
+                                            needLocationSendServer = false
+                                            Toast.makeText(mContext, "약속 인증 성공", Toast.LENGTH_SHORT).show()
 
                                         } else {
 
@@ -120,8 +121,7 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
                                     }
                                 })
-
-                                needLocationSendServer = false
+                                
                             }
                         }
 
