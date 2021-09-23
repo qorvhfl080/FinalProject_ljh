@@ -175,6 +175,11 @@ class EditAppoinmentActivity : BaseActivity() {
                 return@setOnClickListener
             }
 
+            val myTimeZone = mSelectedDateTime.timeZone
+            val myTimeOffset = myTimeZone.rawOffset / 1000 / 60 / 60
+
+            mSelectedDateTime.add(Calendar.HOUR_OF_DAY, -myTimeOffset)
+
             val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
             val finalDateTime = sdf.format(mSelectedDateTime.time)
             Toast.makeText(mContext, "${finalDateTime}", Toast.LENGTH_SHORT).show()
