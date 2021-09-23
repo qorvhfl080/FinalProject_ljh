@@ -225,7 +225,9 @@ class EditAppoinmentActivity : BaseActivity() {
 
                             val jobTime = mSelectedDateTime.timeInMillis - now.timeInMillis
 
-                            val jobInfo = JobInfo.Builder(MyJobService.JOB_TIME_SET, serviceComponent)
+                            val basicResponse = response.body()!!
+
+                            val jobInfo = JobInfo.Builder(basicResponse.data.appointment.id, serviceComponent)
                                 .setMinimumLatency(jobTime)
                                 .setOverrideDeadline(TimeUnit.MINUTES.toMillis(3))
                                 .build()
