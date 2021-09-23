@@ -217,8 +217,16 @@ class EditAppoinmentActivity : BaseActivity() {
 
                             val serviceComponent = ComponentName(mContext, MyJobService::class.java)
 
+                            mSelectedDateTime.add(Calendar.HOUR_OF_DAY, -2)
+
+                            val now = Calendar.getInstance()
+                            val timeOffset = now.timeZone.rawOffset / 1000 / 60 / 60
+                            now.add(Calendar.HOUR_OF_DAY, -timeOffset)
+
+                            val jobTime = mSelectedDateTime.timeInMillis - now.timeInMillis
+
                             val jobInfo = JobInfo.Builder(MyJobService.JOB_TIME_SET, serviceComponent)
-                                .setMinimumLatency(TimeUnit.MINUTES.toMillis(1))
+                                .setMinimumLatency(jobTime)
                                 .setOverrideDeadline(TimeUnit.MINUTES.toMillis(3))
                                 .build()
 
