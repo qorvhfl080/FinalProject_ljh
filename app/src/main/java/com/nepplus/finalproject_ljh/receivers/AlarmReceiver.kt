@@ -1,15 +1,15 @@
 package com.nepplus.finalproject_ljh.receivers
 
-import android.app.AlarmManager
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
+import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.util.Log
+import androidx.core.app.NotificationCompat
+import com.nepplus.finalproject_ljh.MainActivity
+import com.nepplus.finalproject_ljh.R
 
 class AlarmReceiver : BroadcastReceiver() {
 
@@ -24,7 +24,29 @@ class AlarmReceiver : BroadcastReceiver() {
 
         Log.d("alarm", "알람")
         mNotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
         createNotificationChannel()
+
+        deliverNotification(context)
+
+    }
+
+    fun deliverNotification(context: Context) {
+
+        val contentIntent = Intent(context, MainActivity::class.java)
+
+        val pendingIntent = PendingIntent.getActivity(context, ALARM_ID, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val notiBuilder = NotificationCompat.Builder(context, PRIMARY_CHANNEL_ID)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentTitle("테스트 알람")
+            .setContentText("알림이 울립니다.")
+            .setContentIntent(pendingIntent)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+
+        mNotificationManager.notify(ALARM_ID, notiBuilder.build())
 
     }
 
