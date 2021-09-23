@@ -61,6 +61,12 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+        binding.refreshBtn.setOnClickListener {
+
+            getAppointmentFromServer()
+
+        }
+
         binding.arrivalBtn.setOnClickListener {
 
             needLocationSendServer = true
@@ -179,6 +185,8 @@ class ViewAppointmentDetailActivity : BaseActivity() {
                 val basicResponse = response.body()!!
 
                 mAppointmentData = basicResponse.data.appointment
+
+                binding.invitedFriendsLayout.removeAllViews()
 
                 val inflater = LayoutInflater.from(mContext)
                 val sdf = SimpleDateFormat("H:mm 도착")
