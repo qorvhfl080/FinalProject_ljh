@@ -107,7 +107,7 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
                                         } else {
 
-                                            val jsonObj = JSONObject(response.errorBody().string())
+                                            val jsonObj = JSONObject(response.errorBody()!!.string())
                                             val message = jsonObj.getString("message")
                                             Toast.makeText(mContext, "${message}", Toast.LENGTH_SHORT).show()
 
@@ -167,6 +167,11 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
         setNaverMap()
 
+        getAppointmentFromServer()
+
+    }
+
+    fun getAppointmentFromServer() {
         val inflater = LayoutInflater.from(mContext)
         for (friend in mAppointmentData.invitedFriendList) {
 
@@ -182,7 +187,6 @@ class ViewAppointmentDetailActivity : BaseActivity() {
             binding.invitedFriendsLayout.addView(friendView)
 
         }
-
     }
 
     fun setNaverMap() {
