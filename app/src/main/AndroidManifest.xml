@@ -16,6 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FinalProject_ljh"
         android:usesCleartextTraffic="true">
+
+        <service android:name=".services.MyJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+
+        <receiver android:name=".receivers.AlarmReceiver"
+            android:exported="false"/>
+
+
         <activity
             android:name=".ViewAppointmentDetailActivity"
             android:exported="true" />
@@ -86,6 +94,7 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true" />
+
     </application>
 
 </manifest>

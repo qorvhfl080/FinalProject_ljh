@@ -2,6 +2,9 @@ package com.nepplus.finalproject_ljh
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -26,6 +29,7 @@ import com.nepplus.finalproject_ljh.databinding.ActivityEditAppoinmentBinding
 import com.nepplus.finalproject_ljh.datas.BasicResponse
 import com.nepplus.finalproject_ljh.datas.PlaceData
 import com.nepplus.finalproject_ljh.datas.UserResponse
+import com.nepplus.finalproject_ljh.services.MyJobService
 import com.nepplus.finalproject_ljh.utils.SizeUtil
 import com.odsay.odsayandroidsdk.API
 import com.odsay.odsayandroidsdk.ODsayData
@@ -36,6 +40,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 class EditAppoinmentActivity : BaseActivity() {
@@ -206,14 +211,22 @@ class EditAppoinmentActivity : BaseActivity() {
                 mSelectedLat, mSelectedLng, friendListStr)
                 .enqueue(object : Callback<BasicResponse> {
                     override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
-
-                        val bodyResponse = response.body()
-
                         if (response.isSuccessful) {
+
+                            val js = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+
+                            val serviceComponent = ComponentName(mContext, MyJobService::class.java)
+
+                            val jobInfo = JobInfo.Builder(MyJobService.JOB_TIME_SET, serviceComponent)
+                                .setMinimumLatency(TimeUnit.MINUTES.toMillis(1))
+                                .setOverrideDeadline(TimeUnit.MINUTES.toMillis(3))
+                                .build()
+
+                            js.schedule(jobInfo)
+
                             Toast.makeText(mContext, "약속 등록 완료", Toast.LENGTH_SHORT).show()
-
+                            finish()
                         }
-
                     }
 
                     override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
