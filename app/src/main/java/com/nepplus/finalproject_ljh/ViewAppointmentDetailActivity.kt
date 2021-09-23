@@ -172,29 +172,46 @@ class ViewAppointmentDetailActivity : BaseActivity() {
     }
 
     fun getAppointmentFromServer() {
-        val inflater = LayoutInflater.from(mContext)
-        val sdf = SimpleDateFormat("H:mm 도착")
 
-        for (friend in mAppointmentData.invitedFriendList) {
+        apiService.getRequestAppointmentDetail(mAppointmentData.id).enqueue(object : Callback<BasicResponse> {
+            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
-            val friendView = inflater.inflate(R.layout.invited_friends_list_item, null)
+                val basicResponse = response.body()!!
 
-            val friendProfileImg = friendView.findViewById<ImageView>(R.id.friendProfileImg)
-            val nicknameTxt = friendView.findViewById<TextView>(R.id.nicknameTxt)
-            val statusTxt = friendView.findViewById<TextView>(R.id.statusTxt)
+                mAppointmentData = basicResponse.data.appointment
 
-            if (friend.arrivedAt == null) {
-                statusTxt.text = "도착 전"
-            } else {
-                statusTxt.text = sdf.format(friend.arrivedAt!!)
+                val inflater = LayoutInflater.from(mContext)
+                val sdf = SimpleDateFormat("H:mm 도착")
+
+                for (friend in mAppointmentData.invitedFriendList) {
+
+                    val friendView = inflater.inflate(R.layout.invited_friends_list_item, null)
+
+                    val friendProfileImg = friendView.findViewById<ImageView>(R.id.friendProfileImg)
+                    val nicknameTxt = friendView.findViewById<TextView>(R.id.nicknameTxt)
+                    val statusTxt = friendView.findViewById<TextView>(R.id.statusTxt)
+
+                    if (friend.arrivedAt == null) {
+                        statusTxt.text = "도착 전"
+                    } else {
+                        statusTxt.text = sdf.format(friend.arrivedAt!!)
+                    }
+
+                    Glide.with(mContext).load(friend.profileImgURL).into(friendProfileImg)
+                    nicknameTxt.text = friend.nickname
+
+                    binding.invitedFriendsLayout.addView(friendView)
+
+                }
+
             }
 
-            Glide.with(mContext).load(friend.profileImgURL).into(friendProfileImg)
-            nicknameTxt.text = friend.nickname
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
-            binding.invitedFriendsLayout.addView(friendView)
+            }
+        })
 
-        }
+
     }
 
     fun setNaverMap() {
