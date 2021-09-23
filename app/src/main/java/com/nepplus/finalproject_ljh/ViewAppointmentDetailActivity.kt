@@ -28,12 +28,16 @@ import com.naver.maps.map.overlay.PathOverlay
 import com.naver.maps.map.util.MarkerIcons
 import com.nepplus.finalproject_ljh.databinding.ActivityViewAppointmentDetailBinding
 import com.nepplus.finalproject_ljh.datas.AppointmentData
+import com.nepplus.finalproject_ljh.datas.BasicResponse
 import com.odsay.odsayandroidsdk.API
 import com.odsay.odsayandroidsdk.ODsayData
 import com.odsay.odsayandroidsdk.ODsayService
 import com.odsay.odsayandroidsdk.OnResultCallbackListener
 import okhttp3.*
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.IOException
 import java.text.SimpleDateFormat
 
@@ -70,6 +74,32 @@ class ViewAppointmentDetailActivity : BaseActivity() {
                             if (needLocationSendServer) {
                                 Log.d("location", p0.latitude.toString())
                                 Log.d("location", p0.longitude.toString())
+
+                                apiService.postRequestArrival(mAppointmentData.id, p0.latitude, p0.longitude).enqueue(object : Callback<BasicResponse> {
+                                    override fun onResponse(
+                                        call: Call<BasicResponse>,
+                                        response: Response<BasicResponse>
+                                    ) {
+                                        if (response.isSuccessful) {
+
+
+
+                                        } else {
+
+                                            val jsonObj = JSONObject(response.errorBody().string())
+                                            val message = jsonObj.getString("message")
+                                            Toast.makeText(mContext, "${message}", Toast.LENGTH_SHORT).show()
+
+                                        }
+                                    }
+
+                                    override fun onFailure(
+                                        call: Call<BasicResponse>,
+                                        t: Throwable
+                                    ) {
+
+                                    }
+                                })
 
                                 needLocationSendServer = false
                             }
